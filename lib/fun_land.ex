@@ -6,10 +6,31 @@ defmodule FunLand do
     quote do
       alias FunLand.{
         Mappable,
-        Combinable,
-        Collectable,
-      }
-    end
+        Appliable,
+        Applicative,
+        Chainable,
+        Monad,
 
+        SemiCombinable,
+        Combinable,
+
+        Reducable,
+        Traversable
+      }
+      import FunLand
+    end
+  end
+
+
+  def a ~> b do
+    FunLand.Mappable.map(a, b)
+  end
+
+  def a <~> b do
+    FunLand.Appliable.apply(a, b)
+  end
+
+  def a ~>> b do
+    FunLand.Chainable.chain(a, b)
   end
 end
