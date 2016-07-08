@@ -27,7 +27,7 @@ defmodule FunLand do
   end
 
   def a <~> b do
-    FunLand.Appliable.apply(a, b)
+    FunLand.Appliable.ap(a, b)
   end
 
   def a ~>> b do

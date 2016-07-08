@@ -23,4 +23,11 @@ defmodule FunLand.Appliable do
     appliable_module.ap(a, b)
   end
 
+  # This implementation of `ap` is returning all possible solutions of combining the function(s) in `a` with the elements of `b`, AKA the cartesion product.
+  defp do_ap(fun_a=[], b = [_|_]), do: []
+  defp do_ap(fun_a=[h|t], b = [_|_]) do
+    partial_results = for elem <- b, do: h.(elem)
+    partial_results ++ do_ap(t, b)
+  end
+
 end

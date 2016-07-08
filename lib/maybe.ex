@@ -12,14 +12,19 @@ defmodule Maybe do
   def just(x), do: %Maybe{nothing?: false, val: x}
 
   def from_just(%Maybe{nothing?: false, val: x}), do: x
-  def fromjust(%Maybe{}), do: raise "Passed value was nothing!"
+  def from_just(%Maybe{}), do: raise "Passed value was nothing!"
 
+
+  # Monad behaviour callbacks
   def ap(%Maybe{nothing?: true}, _), do: nothing()
   def ap(_, %Maybe{nothing?: true}), do: nothing()
-  def ap(%Maybe{nothing?: false, val: fun}, %Maybe{nothing?: false, val: b}) when is_function(fun, 1) do
+  def ap(%Maybe{val: fun}, %Maybe{val: b}) when is_function(fun, 1) do
     just(fun.(b))
   end
 
   def of(x), do: just(x)
+
+  def chain(%Maybe{nothing?: true}, fun), do: nothing()
+  def chain(%Maybe{val: x}, fun), do: fun.(x)
 
 end

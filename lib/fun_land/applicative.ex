@@ -18,7 +18,7 @@ defmodule FunLand.Applicative do
       def map(a, function) do
         a
         |> of
-        |> apply(function)
+        |> ap(function)
       end
 
       defoverridable [map: 2]
