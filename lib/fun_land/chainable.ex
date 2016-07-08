@@ -16,7 +16,7 @@ defmodule FunLand.Chainable do
     do_chain(a, b)
   end
 
-  defp do_chain(a = %chainable{}, b = %chainable{}) do
+  defp do_chain(a = %chainable{}, b) when is_function(b, 1) do
     chainable.chain(a, b)
   end
 end
