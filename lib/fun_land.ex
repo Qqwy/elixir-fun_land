@@ -1,9 +1,11 @@
 defmodule FunLand do
   # Elixir doesn't let you _really_ define abstract data types.
-  @type adt :: [any] | {} | %{...} | struct
+  @type adt :: [any] | {} | map | struct
 
   defmacro __using__(_opts) do
     quote do
+      import Kernel, except: [<>: 2]
+
       alias FunLand.{
         Mappable,
         Appliable,
@@ -27,10 +29,15 @@ defmodule FunLand do
   end
 
   def a <~> b do
-    FunLand.Appliable.ap(a, b)
+    FunLand.Appliable.apply_with(a, b)
   end
 
   def a ~>> b do
     FunLand.Chainable.chain(a, b)
+  end
+
+  # This operator is made more general. It still works for binary combining, as binaries are indeed Combinable.
+  def a <> b do
+    Funland.Combinable.combine(a, b)
   end
 end

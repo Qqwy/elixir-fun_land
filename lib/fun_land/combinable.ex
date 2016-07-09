@@ -4,6 +4,26 @@ defmodule FunLand.Combinable do
   that can be used to keep the same element when used on an element.
   
   In Category Theory, something that is Combinable is called a *Monoid*.
+
+  ## Examples
+
+  integers-addition with 0 as neutral element forms a Monoid, also known as the Sum.
+  integer-multiplication with 1 as neutral element forms a Monoid, also known as the Product.
+
+
+  ## Fruit Salad Example
+
+  Bowls that you can use to mix fruits in, are a monoid:
+
+  The `combine` operation would be to put the fruits from Bowl A into Bowl B, keeping that one.
+  The `neutral` operation would be to take an emtpy bowl.
+
+  As can be seen, this follows the Combinable laws: 
+
+  - left-identity: putting the fruits from an empty bowl into a bowl with appljes, would be the same as doing nothing (you still have 'a bowl with apples')
+  - right-identity: putting the fruits from a bowl of apples into an empty bowl, would be the same as doing nothing (you still have 'a bowl with apples')
+
+
   """
 
   @type combinable(_) :: FunLand.adt
@@ -39,6 +59,9 @@ defmodule FunLand.Combinable do
     end
   end
 
+
+  defdelegate combine(a, b), to: FunLand.SemiCombinable
+
   def combine(a, b) do
     FunLand.Semicombinable.combine(a, b)
   end
@@ -47,12 +70,24 @@ defmodule FunLand.Combinable do
     do_neutral(combinable)
   end
 
+  # Lists
   defp do_neutral(combinable) when is_list(combinable), do: []
   defp do_neutral(List), do: []
+
+  # Tuple
   defp do_neutral(combinable) when is_tuple(combinable), do: {}
   defp do_neutral(Tuple), do: {}
+  
+  # Binaries
+  defp do_neutral(binary) when is_binary(binary), do: <<>>
+
+  # Behaviour
   defp do_neutral(combinable = %combinable_module{}), do: combinable_module.neutral(combinable)
-  defp do_neutral(combinable = %{}), do: %{}
+  defp do_neutral(_combinable = %{}), do: %{}
+  
+  # Map
+  defp do_neutral(%{}), do: %{}
   defp do_neutral(Map), do: %{}
+
 
 end

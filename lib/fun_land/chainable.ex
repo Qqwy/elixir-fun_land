@@ -20,7 +20,7 @@ defmodule FunLand.Chainable do
   ## In Other Environments
   - in Haskell, `chain` is known by the name `bind`, or `>>=`.
   
-  
+
 
   """
 
@@ -33,6 +33,9 @@ defmodule FunLand.Chainable do
     end
   end
 
+
+  defdelegate apply_with(a, b), to: FunLand.Appliable
+  
   def chain(a, b) do
     do_chain(a, b)
   end
@@ -40,4 +43,5 @@ defmodule FunLand.Chainable do
   defp do_chain(a = %chainable{}, b) when is_function(b, 1) do
     chainable.chain(a, b)
   end
+
 end

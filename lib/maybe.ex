@@ -16,15 +16,16 @@ defmodule Maybe do
 
 
   # Monad behaviour callbacks
-  def ap(%Maybe{nothing?: true}, _), do: nothing()
-  def ap(_, %Maybe{nothing?: true}), do: nothing()
-  def ap(%Maybe{val: fun}, %Maybe{val: b}) when is_function(fun, 1) do
+
+  def apply_with(%Maybe{nothing?: true}, _), do: nothing()
+  def apply_with(_, %Maybe{nothing?: true}), do: nothing()
+  def apply_with(%Maybe{val: fun}, %Maybe{val: b}) when is_function(fun, 1) do
     just(fun.(b))
   end
 
-  def of(x), do: just(x)
+  def wrap(x), do: just(x)
 
-  def chain(%Maybe{nothing?: true}, fun), do: nothing()
+  def chain(%Maybe{nothing?: true}, _fun), do: nothing()
   def chain(%Maybe{val: x}, fun), do: fun.(x)
 
 end

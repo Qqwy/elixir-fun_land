@@ -43,12 +43,15 @@ defmodule FunLand.Applicative do
       def map(a, function) do
         a
         |> wrap
-        |> ap(function)
+        |> apply_with(function)
       end
 
       defoverridable [map: 2]
     end
   end
+
+  
+  defdelegate apply_with(a, b), to: FunLand.Appliable
 
   # Note difference wrap callback and implementation; we need two parameters here.
   def wrap(module, a) do
@@ -58,5 +61,6 @@ defmodule FunLand.Applicative do
   defp do_wrap(module, a) do
     module.wrap(a)
   end
+
 
 end

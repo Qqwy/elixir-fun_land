@@ -14,7 +14,7 @@ defmodule FunLand.Reducable do
     do_reduce(a, acc, fun)
   end
 
-  defp do_reduce([], acc, fun), do: acc
+  defp do_reduce([], acc, _fun), do: acc
   defp do_reduce([h|t], acc, fun), do: do_reduce(t, fun.(h, acc), fun)
 
 

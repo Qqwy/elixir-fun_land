@@ -29,8 +29,8 @@ defmodule FunLand.Monad do
   end
 
 
-  defdelegate ap(a, b), to: FunLand.Appliable
-  defdelegate of(module, a), to: FunLand.Applicative
+  defdelegate apply_with(a, b), to: FunLand.Appliable
+  defdelegate wrap(module, a), to: FunLand.Applicative
   defdelegate chain(a, b), to: FunLand.Chainable
 
 end

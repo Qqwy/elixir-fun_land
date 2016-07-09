@@ -16,7 +16,7 @@ defmodule FunLand.Traversable do
   end
 
   # Problem: untyped lists. No idea what applicative to wrap with when list is empty.
-  defp do_sequence(seq_a, fun) when is_list(seq_a) do
-
+  defp do_sequence(seq_a, _fun) when is_list(seq_a) do
+    nil
   end
 end
