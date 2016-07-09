@@ -1,5 +1,9 @@
 defmodule FunLand.Traversable do
 
+  @moduledoc """
+  TODO: Find out how to use this in a dynamically typed language.
+  """
+
   @type traversable(_) :: FunLand.adt
 
   @callback sequence(traversable(a), (a -> FunLand.Applicative.applicative(b))) :: FunLand.Applicative.applicative(traversable(b)) when a: any, b: any
@@ -15,7 +19,7 @@ defmodule FunLand.Traversable do
     do_sequence(seq_a, fun)
   end
 
-  # Problem: untyped lists. No idea what applicative to wrap with when list is empty.
+  # Problem: untyped lists. No idea what applicative to wrap with when list is empty. Same for other structures
   defp do_sequence(seq_a, _fun) when is_list(seq_a) do
     nil
   end

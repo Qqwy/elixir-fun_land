@@ -33,4 +33,7 @@ defmodule FunLand.Monad do
   defdelegate wrap(module, a), to: FunLand.Applicative
   defdelegate chain(a, b), to: FunLand.Chainable
 
+
+  # TODO: Implement `fail`.
+
 end

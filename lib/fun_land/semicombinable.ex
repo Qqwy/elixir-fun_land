@@ -10,9 +10,9 @@ defmodule FunLand.Semicombinable do
 
   If you have one bowl with apples, and a second bowl with oranges, one can combine these, by putting the apples and the oranges in the same bowl.
 
-  This follows the Semicombinable laws:
+  This follows the Semicombinable law:
 
-  - `combine(combine(bowl_with_apples, bowl_with_oranges), bowl_with_bananas)` results in the same bowl as `combine(bowl_with_apples, combine(bowl_with_oranges, bowl_with_bananas))
+  - associativity: `combine(combine(bowl_with_apples, bowl_with_oranges), bowl_with_bananas)` results in the same bowl as `combine(bowl_with_apples, combine(bowl_with_oranges, bowl_with_bananas))
 
 
   ## Some Common Semigroups
@@ -37,11 +37,14 @@ defmodule FunLand.Semicombinable do
   end
 
   # Lists
-  def do_combine(a = [_|_], b = [_|_]), do: a ++ b
+  def do_combine(a, b) when is_list(a) and is_list(b), do: Kernel.++(a, b)
   def do_combine(a = %{}, b = %{}), do: :maps.merge(a, b)
 
   # Binaries
   def do_combine(a, b) when is_binary(a) and is_binary(b), do: Kernel.<>(a, b)
+
+  # Numbers -- note: Uses addition.
+  def do_combine(a, b) when is_number(a) and is_number(b), do: Kernel.+(a, b)
 
   # Behaviour
   def do_combine(a = %combinable{}, b = %combinable{}) do

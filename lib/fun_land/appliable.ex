@@ -55,7 +55,7 @@ defmodule FunLand.Appliable do
     end
   end
 
-  
+
   defdelegate map(mappable, fun), to: FunLand.Mappable
 
   def apply_with(a, b) do
@@ -67,11 +67,12 @@ defmodule FunLand.Appliable do
   end
 
   # This implementation of `ap` is returning all possible solutions of combining the function(s) in `a` with the elements of `b`, AKA the cartesion product.
-  defp do_apply_with(_fun_a=[], _b = [_|_]), do: []
-  defp do_apply_with(_fun_a=[h|t], b = [_|_]) do
+  defp do_apply_with(_fun_a=[], b) when is_list(b), do: []
+  defp do_apply_with(_fun_a=[h | t], b) when is_list(b) do
     partial_results = for elem <- b, do: h.(elem)
     partial_results ++ do_apply_with(t, b)
   end
+
 
 
 

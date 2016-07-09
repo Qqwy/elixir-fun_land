@@ -13,11 +13,13 @@ defmodule FunLand do
         Chainable,
         Monad,
 
-        SemiCombinable,
+        Semicombinable,
         Combinable,
 
         Reducable,
-        Traversable
+        Traversable,
+        
+        CombinableMonad,
       }
       import FunLand
     end
@@ -38,6 +40,6 @@ defmodule FunLand do
 
   # This operator is made more general. It still works for binary combining, as binaries are indeed Combinable.
   def a <> b do
-    Funland.Combinable.combine(a, b)
+    FunLand.Combinable.combine(a, b)
   end
 end
