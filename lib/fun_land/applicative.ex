@@ -1,23 +1,48 @@
 defmodule FunLand.Applicative do
   @doc """
-  Something is Applicative if you can apply one of it (containing a function) to another. 
-  
+  A structure is Applicative if it is Appliable, as well as having the ability to create a new structure from any value, by `wrap`ping it.
+
+  Being able to `wrap`, `apply` and `map` means that we can create new structures with some values, transform them and (partially or fully) apply them to each other.
+
+  Therefore, we're able to re-use all wrap our old operations in a new, more complex context.
+
   In Category Theory, something that is Applicative is called an *Apply*. ??
+
+  ## Fruit Salad Example
+
+  We've already seen that a fruit-salad bowl is `Mappable` and `Appliable`.
+
+  However, we'd like to know how we start out: When we have an apple, how do we end up with a bowl filled with an apple?
+
+  `wrap` is the implementation that answers this question.
+
+  Together with `apply` and `map`, we can now take arbitrary ingredients, put them in bowls and mix and mash them together to our liking, *without soiling the kitchen's countertop*:
+  
+  - `wrap`: We can take an apple, and put it in a bowl: we `wrap` the apple to return a `bowl with an apple`.
+  - `apply`: If we have a bowl with a partially-made fruit-salad, and we have a bowl with an apple, we can take the apple and the partially-made fruit salad to create a bowl with a fruit-with-apples-salad.
+  - `map`: We can take a bowl with any fruit or salad, and do some arbitrary operation with it, such as 'blending'. In this example, we end up with the same bowl, but now filled with blended fruit-salad. 
+
+  ## In Other Environments
+
+  - In Haskell, `Applicative.wrap` is known by `pure` as well as `return`.
+  - In Category Theory, something that is Applicative is know as its more official name *Applicative Functor*.
+
+
   """
   @type applicative(_) :: FunLand.adt
 
-  # TODO: Best name? `of`, `wrap`?
-  @callback of(a) :: applicative(a) when a: any
+  # TODO: Best name? `wrap`, `wrap`?
+  @callback wrap(a) :: applicative(a) when a: any
 
   defmacro __using__(_opts) do
     quote do
       use FunLand.Appliable
       @behaviour FunLand.Applicative
 
-      @doc "Free implementation of Mappable.map for Applicative"
+      @doc "Free implementation wrap Mappable.map for Applicative"
       def map(a, function) do
         a
-        |> of
+        |> wrap
         |> ap(function)
       end
 
@@ -25,13 +50,13 @@ defmodule FunLand.Applicative do
     end
   end
 
-  # Note difference of callback and implementation; we need two parameters here.
-  def of(module, a) do
-    do_of(module, a)
+  # Note difference wrap callback and implementation; we need two parameters here.
+  def wrap(module, a) do
+    do_wrap(module, a)
   end
 
-  defp do_of(module, a) do
-    module.of(a)
+  defp do_wrap(module, a) do
+    module.wrap(a)
   end
 
 end

@@ -1,16 +1,32 @@
 defmodule FunLand.Mappable do
   @moduledoc """
-  Something is Mappable if you can map a function over it, which will transform its contents
-  without changing its structure.
+  Something is Mappable if there is a way to map a function over it.
 
-  So if you map a peel-my-fruit function over a box with bananas, you end up with a box of peeled bananas.
+  `mapping` means to apply a transformation to the contents, without changing the structure.
 
-  If you map &(+2) over a list of numbers, you end up with a list of numbers that are two higher than before.
 
-  etc.
+  This module both contains the Mappable behaviour, which might be added 
+  to your modules/structures by using `use Mappable` from within them,
+  as well as the `Mappable.map(mappable, fun)` function, which will dispatch to whatever structure is passed in as first argument.
+
 
   In Category Theory, something that is Mappable is called a *Functor*.
+
+  ## Fruit Salad Example
+
+  Say we have an apple. There are many _operations_ we could do with an apple, such as peel it, slice it, juice it, etc.
+
+  However, right now we don't have an apple, but a bowl filled with apples. How can we make sure we can still use all the operations we could on single apples?
+
+  The answer: We need to take the apples one-by-one from the bowl, perform the desired operation, and then put them back in the bowl.
+
+  This 'take -> perform -> put back' is the implementation of `map` for a bowl. It works similar for other data structures:
+
+  Exactly _how_ to take something and put a result back, and _when_ to perform the desired operation (if we have an empty bowl, for instance, there's nothing to do)
+  is what you need to define in your implementation.
+
   """
+
   @type mappable(_) :: FunLand.adt
   @callback map(mappable(a), (a -> b)) :: mappable(b) when a: any, b: any
 

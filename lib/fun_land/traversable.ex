@@ -10,4 +10,13 @@ defmodule FunLand.Traversable do
       use FunLand.Reducable
     end
   end
+
+  def sequence(seq_a, fun) do
+    do_sequence(seq_a, fun)
+  end
+
+  # Problem: untyped lists. No idea what applicative to wrap with when list is empty.
+  defp do_sequence(seq_a, fun) when is_list(seq_a) do
+
+  end
 end
