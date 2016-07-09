@@ -36,11 +36,9 @@ defmodule FunLand.Chainable do
 
   defdelegate apply_with(a, b), to: FunLand.Appliable
   
-  def chain(a, b) do
-    do_chain(a, b)
-  end
-
-  defp do_chain(a = %chainable{}, b) when is_function(b, 1) do
+  def chain(chainable_a, chainable_b)
+  
+  def chain(a = %chainable{}, b) when is_function(b, 1) do
     chainable.chain(a, b)
   end
 

@@ -54,18 +54,27 @@ defmodule FunLand.Applicative do
   defdelegate apply_with(a, b), to: FunLand.Appliable
 
   # Note difference wrap callback and implementation; we need two parameters here.
-  defp wrap(module, a) do
-    module.wrap(a)
-  end
-
+  def wrap([], a), do: [a]
+  def wrap(List, a), do: [a]
+  def wrap(module, a) when is_atom(module), do: module.wrap(a)
 
 
   def apply_discard_right(a = %module{}, b = %module{}) do
     apply_with(wrap(module, fn _ -> a end), b)
   end
 
+  def apply_discard_right(a, b) when is_list(a) and is_list(b) do
+    apply_with(wrap([], fn _ -> a end), b)
+  end
+
+
+
   def apply_discard_left(a = %module{}, b = %module{}) do
     apply_with(wrap(module, fn _ -> b end), b)
+  end
+
+  def apply_discard_left(a, b) when is_list(a) and is_list(b) do
+    apply_with(wrap([], fn _ -> b end), b)
   end
 
 

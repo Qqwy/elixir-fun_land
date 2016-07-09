@@ -62,30 +62,28 @@ defmodule FunLand.Combinable do
 
   defdelegate combine(a, b), to: FunLand.Semicombinable
 
-  def neutral(combinable) do
-    do_neutral(combinable)
-  end
+  def neutral(combinable)
 
   # Lists
-  defp do_neutral(combinable) when is_list(combinable), do: []
-  defp do_neutral(List), do: []
+  def neutral(combinable) when is_list(combinable), do: []
+  def neutral(List), do: []
 
   # Tuple
-  defp do_neutral(combinable) when is_tuple(combinable), do: {}
-  defp do_neutral(Tuple), do: {}
+  def neutral(combinable) when is_tuple(combinable), do: {}
+  def neutral(Tuple), do: {}
   
   # Binaries
-  defp do_neutral(binary) when is_binary(binary), do: <<>>
+  def neutral(binary) when is_binary(binary), do: <<>>
 
   # Numbers -- note, this works with integer addition.
-  defp do_neutral(num) when is_number(num), do: 0
+  def neutral(num) when is_number(num), do: 0
 
   # Behaviour
-  defp do_neutral(combinable = %combinable_module{}), do: combinable_module.neutral(combinable)
+  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral(combinable)
   
   # Map
-  defp do_neutral(%{}), do: %{}
-  defp do_neutral(Map), do: %{}
+  def neutral(%{}), do: %{}
+  def neutral(Map), do: %{}
 
 
 end
