@@ -9,6 +9,15 @@ defmodule FunLand.Appliable do
 
   This operation is called `apply_with/2`.
 
+
+  ### Curring
+  
+  As `apply_with` works only applies a single argument per function at a time, it works the best when used with curried functions. 
+  In Elixir, functions are no curried by default.
+  Fortunately, there exists the [Currying](https://hex.pm/packages/currying) library, which transforms your normal functions into curried functions.
+
+  If you want to be able to use Applicative to its fullest potential, instead of calling `fun.(b)` in your implementation, use `Currying.curry(fun).(b)`
+
   _________
 
   To be Appliable something also has to be Mappable.

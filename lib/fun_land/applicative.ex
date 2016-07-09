@@ -6,7 +6,8 @@ defmodule FunLand.Applicative do
 
   Therefore, we're able to re-use all wrap our old operations in a new, more complex context.
 
-  In Category Theory, something that is Applicative is called an *Apply*. ??
+
+  
 
   ## Fruit Salad Example
 

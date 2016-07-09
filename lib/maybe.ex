@@ -20,7 +20,7 @@ defmodule Maybe do
   def apply_with(%Maybe{nothing?: true}, _), do: nothing()
   def apply_with(_, %Maybe{nothing?: true}), do: nothing()
   def apply_with(%Maybe{val: fun}, %Maybe{val: b}) when is_function(fun, 1) do
-    just(fun.(b))
+    just(Currying.curry(fun).(b))
   end
 
   def wrap(x), do: just(x)

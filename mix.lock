@@ -1,1 +1,2 @@
-%{"dialyxir": {:hex, :dialyxir, "0.3.5", "eaba092549e044c76f83165978979f60110dc58dd5b92fd952bf2312f64e9b14", [:mix], []}}
+%{"currying": {:hex, :currying, "1.0.2", "4770723761f34e27f4ed17474a71e27e81da046aa214bcb6dec7f4215faa97d8", [:mix], []},
+  "dialyxir": {:hex, :dialyxir, "0.3.5", "eaba092549e044c76f83165978979f60110dc58dd5b92fd952bf2312f64e9b14", [:mix], []}}
