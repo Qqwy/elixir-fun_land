@@ -19,12 +19,33 @@ defmodule FunLand.Monad do
 
 
   """
+  # TODO: Describe monadic do-notation with example.
 
   defmacro __using__(_opts) do
     quote do
       use FunLand.Applicative
       use FunLand.Chainable
 
+      @doc """
+      Allows you to write multiple consecutive operations using this monad
+      on new lines.
+      This is called 'monadic do-notation'.
+
+      For more info, see `FunLand.Monad.monadic`
+
+      Rules:
+
+      1. Every normal line returns a new instance of the monad.
+      2. You can write `x <- some_expr_returning_a_monad_instance` to bind `x` to whatever is inside the monad. 
+      You can then use `x` on any subsequent lines.
+      3. If you want to use one or multiple statements, use `let something = some_statement` or `let something = do ...`
+
+      The final line is of course expected to also return an instance of the monad. 
+      Use `wrap` at any time to wrap a value back into a monad if you need.
+      
+      Inside the monadic context, the module of the monad that was defined is automatically imported.
+      Any local calls to e.g. `wrap`, `apply`, `chain` or functions you've defined yourself in your monad module will thus be called on your module.
+      """
       defmacro monadic(do: block) do
         quote do
           require FunLand.Monad
@@ -53,7 +74,24 @@ defmodule FunLand.Monad do
 
 
   # TODO: Implement `fail`. Or separate this into another behaviour?
+  @doc """
+  Allows you to write multiple consecutive operations using this monad
+  on new lines.
+  This is called 'monadic do-notation'.
 
+  Rules:
+
+  1. Every normal line returns a new instance of the monad.
+  2. You can write `x <- some_expr_returning_a_monad_instance` to bind `x` to whatever is inside the monad. 
+  You can then use `x` on any subsequent lines.
+  3. If you want to use one or multiple statements, use `let something = some_statement` or `let something = do ...`
+
+  The final line is of course expected to also return an instance of the monad. 
+  Use `wrap` at any time to wrap a value back into a monad if you need.
+  
+  Inside the monadic context, the module of the monad that was defined is automatically imported.
+  Any local calls to e.g. `wrap`, `apply`, `chain` or functions you've defined yourself in your monad module will thus be called on your module.
+  """
   defmacro monadic(monad, do: block) do
       IO.puts(Macro.to_string(block))
       res = 
@@ -76,6 +114,7 @@ defmodule FunLand.Monad do
     raise "\"#{Macro.to_string(line)}\"  `<-` cannot appear on the last line of a monadic do block"
   end
 
+
   defp desugar_monadic_lines(_, [single_line]) do
     [single_line]
   end
@@ -85,6 +124,20 @@ defmodule FunLand.Monad do
     desugar_monadic_chain(monad, var, expr, lines)
   end
   
+  # let-expressions.  
+  defp desugar_monadic_lines(monad, [{:let, _, let_expressions} | lines]) do
+    if length(let_expressions) == 1 and is_list(hd(let_expressions)) do
+      case Keyword.fetch(hd(let_expressions), :do) do
+        {:ok, expressions_in_do} ->
+          [expressions_in_do | desugar_monadic_lines(monad, lines)]
+        _ ->
+          let_expressions ++ desugar_monadic_lines(monad, lines)
+      end
+    else
+      let_expressions ++ desugar_monadic_lines(monad, lines)
+    end
+  end
+
   # foo ==> chain(foo, fn _ -> ... end)
   defp desugar_monadic_lines(monad, [expr | lines]) do
     desugar_monadic_chain(monad, quote(do: _), expr, lines)
