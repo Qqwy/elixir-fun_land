@@ -61,14 +61,19 @@ defmodule FunLand.Monad do
           nil ->
             raise ArgumentError, message: "missing or empty do block"
           {:__block__, meta, lines} -> 
-            {:__block__, meta, [quote do import unquote(monad) end | desugar_monadic_lines(monad, [lines])]}
+            {:__block__, meta, [quote do import unquote(monad) end | desugar_monadic_lines(monad, lines)]}
           line -> 
             {:__block__, [], [quote do import unquote(monad) end | desugar_monadic_lines(monad, [line])]}
         end
       IO.puts(Macro.to_string(res))
-      transformed_wrap_res = transform_wrap(monad, res)
-      IO.puts(Macro.to_string(transformed_wrap_res))
-      transformed_wrap_res
+      res
+      # transformed_wrap_res = transform_wrap(monad, res)
+      # IO.puts(Macro.to_string(transformed_wrap_res))
+      # transformed_wrap_res
+  end
+
+  defp desugar_monadic_lines(_, [line = {:<-, _, [var, expr]}]) do
+    raise "\"#{Macro.to_string(line)}\"  `<-` cannot appear on the last line of a monadic do block"
   end
 
   defp desugar_monadic_lines(_, [single_line]) do
@@ -110,21 +115,21 @@ defmodule FunLand.Monad do
   end
 
 
-  defp transform_wrap(monad, {:wrap, _, [arg]} ) do
-    quote do unquote(monad).wrap(unquote(arg)) end
-  end
-  defp transform_wrap(monad, {call, meta, args}) do
-    {call, meta, transform_wrap(monad, args)}
-  end
-  defp transform_wrap(monad, list) when is_list(list) do
-    Enum.map(list, &transform_wrap(monad, &1))
-  end
-  defp transform_wrap(monad, {lhs, rhs}) do
-    { transform_wrap(monad, lhs), transform_wrap(monad, rhs) }
-  end
-  defp transform_wrap(_monad, x) do
-    x
-  end
+  # defp transform_wrap(monad, {:wrap, _, [arg]} ) do
+  #   quote do unquote(monad).wrap(unquote(arg)) end
+  # end
+  # defp transform_wrap(monad, {call, meta, args}) do
+  #   {call, meta, transform_wrap(monad, args)}
+  # end
+  # defp transform_wrap(monad, list) when is_list(list) do
+  #   Enum.map(list, &transform_wrap(monad, &1))
+  # end
+  # defp transform_wrap(monad, {lhs, rhs}) do
+  #   { transform_wrap(monad, lhs), transform_wrap(monad, rhs) }
+  # end
+  # defp transform_wrap(_monad, x) do
+  #   x
+  # end
 
 
 end
