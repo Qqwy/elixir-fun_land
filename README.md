@@ -11,6 +11,7 @@ Algebraic Data Types in Elixir
 - [ ] Fully Write this readme.
 - [ ] Implement more practical Algebraic Data Types to show what can be done: List, Maybe, Either, Reader, Writer, Sum, Product, etc.
 - [ ] Also, where to put these practical implementations?
+- [ ] How to write proper code for the built-in types like List? (What to put in the monadic syntax? etc.)
 - [ ] Write as many tests as possible.
 - [ ] Revisit example code.
 
