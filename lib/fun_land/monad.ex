@@ -26,11 +26,22 @@ defmodule FunLand.Monad do
       use FunLand.Chainable
 
       defmacro monadic(do: block) do
-        require FunLand.Monad
         quote do
+          require FunLand.Monad
           FunLand.Monad.monadic(unquote(__MODULE__), do: unquote(block))
         end
       end
+
+      @doc """
+      This is called internally whenever a `YourMonad.chain()` operation fails.
+
+      For most monads, the default behaviour of crashing is great.
+      For some, you might want to override it.
+      """
+      def fail(var, expr) do
+        raise "The monadic pattern match #{Macro.to_string(var)} failed in #{Macro.to_string(expr)}"
+      end
+      defoverridable [fail: 2]
 
     end
   end
@@ -50,9 +61,9 @@ defmodule FunLand.Monad do
           nil ->
             raise ArgumentError, message: "missing or empty do block"
           {:__block__, meta, lines} -> 
-            {:__block__, meta, desugar_monadic_lines(monad, [quote do import unquote(monad) end | lines])}
+            {:__block__, meta, [quote do import unquote(monad) end | desugar_monadic_lines(monad, [lines])]}
           line -> 
-            {:__block__, [], desugar_monadic_lines(monad, [quote do import unquote(monad) end | line])}
+            {:__block__, [], [quote do import unquote(monad) end | desugar_monadic_lines(monad, [line])]}
         end
       IO.puts(Macro.to_string(res))
       transformed_wrap_res = transform_wrap(monad, res)
@@ -93,7 +104,7 @@ defmodule FunLand.Monad do
           unquote(var) ->
             unquote_splicing(desugar_monadic_lines(monad, lines))
           failed_result ->
-            unquote(monad).fail(failed_result)
+            unquote(monad).fail(unquote(Macro.escape(var)), failed_result)
         end)
     end]
   end

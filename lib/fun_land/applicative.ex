@@ -44,12 +44,12 @@ defmodule FunLand.Applicative do
       def map(a, function) do
         apply_with(wrap(function), a)
       end
+      defoverridable [map: 2]
 
 
       defdelegate apply_discard_left(a, b), to: FunLand.Applicative
       defdelegate apply_discard_right(a, b), to: FunLand.Applicative
 
-      defoverridable [map: 2]
     end
   end
 
