@@ -42,16 +42,19 @@ defmodule FunLand.Applicative do
 
       @doc "Free implementation wrap Mappable.map for Applicative"
       def map(a, function) do
-        a
-        |> wrap
-        |> apply_with(function)
+        apply_with(wrap(function), a)
       end
+
+
+      defdelegate apply_discard_left(a, b), to: FunLand.Applicative
+      defdelegate apply_discard_right(a, b), to: FunLand.Applicative
 
       defoverridable [map: 2]
     end
   end
 
   
+  defdelegate map(a, fun), to: FunLand.Mappable
   defdelegate apply_with(a, b), to: FunLand.Appliable
 
   # Note difference wrap callback and implementation; we need two parameters here.
@@ -61,22 +64,25 @@ defmodule FunLand.Applicative do
 
 
   def apply_discard_right(a = %module{}, b = %module{}) do
-    apply_with(wrap(module, fn _ -> a end), b)
+    apply_with(map(a, Currying.curry(&const/2)), b)
   end
 
   def apply_discard_right(a, b) when is_list(a) and is_list(b) do
-    apply_with(wrap([], fn _ -> a end), b)
+    apply_with(map([], Currying.curry(&const/2)), b)
   end
 
 
 
   def apply_discard_left(a = %module{}, b = %module{}) do
-    apply_with(wrap(module, fn _ -> b end), b)
+    apply_with(map(a, Currying.curry(&reverse_const/2)), b)
   end
 
   def apply_discard_left(a, b) when is_list(a) and is_list(b) do
-    apply_with(wrap([], fn _ -> b end), b)
+    apply_with(map([], Currying.curry(&reverse_const/2)), b)
   end
+
+  defp const(x, _), do: x
+  defp reverse_const(_, x), do: x
 
 
 end
