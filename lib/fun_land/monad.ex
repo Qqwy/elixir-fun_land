@@ -50,9 +50,9 @@ defmodule FunLand.Monad do
           nil ->
             raise ArgumentError, message: "missing or empty do block"
           {:__block__, meta, lines} -> 
-            {:__block__, meta, desugar_monadic_lines(monad, lines)}
+            {:__block__, meta, desugar_monadic_lines(monad, [quote do import unquote(monad) end | lines])}
           line -> 
-            {:__block__, [], desugar_monadic_lines(monad, [line])}
+            {:__block__, [], desugar_monadic_lines(monad, [quote do import unquote(monad) end | line])}
         end
       IO.puts(Macro.to_string(res))
       transformed_wrap_res = transform_wrap(monad, res)
