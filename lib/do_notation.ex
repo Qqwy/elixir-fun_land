@@ -12,31 +12,33 @@ defmodule DoNotation do
       transformed_wrap_res
   end
 
-  def desugar_monadic_lines(_, [single_line]) do
+  defp desugar_monadic_lines(_, [single_line]) do
     [single_line]
   end
 
   # x <- foo ==> chain(foo, fn x -> ... end)
-  def desugar_monadic_lines(monad, [{:<-, _, [var, expr]} | lines]) do
+  defp desugar_monadic_lines(monad, [{:<-, _, [var, expr]} | lines]) do
     desugar_monadic_chain(monad, var, expr, lines)
   end
   
   # foo ==> chain(foo, fn _ -> ... end)
-  # def desugar_monadic_lines(monad, [expr | lines]) do
-  #   desugar_monadic_chain(monad, quote(do: _), expr, lines)
-  # end
-  
-  # foo ==> apply_discard_left(foo, ...)
-  def desugar_monadic_lines(monad, [expr | lines]) do
-    [quote do
-      unquote(monad).apply_discard_left(
-        unquote(expr), 
-        unquote_splicing(desugar_monadic_lines(monad, lines))
-      )
-    end]
+  defp desugar_monadic_lines(monad, [expr | lines]) do
+    desugar_monadic_chain(monad, quote(do: _), expr, lines)
   end
+  
+  # TODO: >> == *> == apply_discard_left?
 
-  def desugar_monadic_chain(monad, var, expr, lines) do
+  # foo ==> apply_discard_left(foo, ...)
+  # def desugar_monadic_lines(monad, [expr | lines]) do
+  #   [quote do
+  #     unquote(monad).apply_discard_left(
+  #       unquote(expr), 
+  #       unquote_splicing(desugar_monadic_lines(monad, lines))
+  #     )
+  #   end]
+  # end
+
+  defp desugar_monadic_chain(monad, var, expr, lines) do
     [quote do
       unquote(monad).chain(unquote(expr), 
         fn 
@@ -49,19 +51,19 @@ defmodule DoNotation do
   end
 
 
-  def transform_wrap(monad, {:wrap, _, [arg]} ) do
+  defp transform_wrap(monad, {:wrap, _, [arg]} ) do
     quote do unquote(monad).wrap(unquote(arg)) end
   end
-  def transform_wrap(monad, {call, meta, args}) do
+  defp transform_wrap(monad, {call, meta, args}) do
     {call, meta, transform_wrap(monad, args)}
   end
-  def transform_wrap(monad, list) when is_list(list) do
+  defp transform_wrap(monad, list) when is_list(list) do
     Enum.map(list, &transform_wrap(monad, &1))
   end
-  def transform_wrap(monad, {lhs, rhs}) do
+  defp transform_wrap(monad, {lhs, rhs}) do
     { transform_wrap(monad, lhs), transform_wrap(monad, rhs) }
   end
-  def transform_wrap(_monad, x) do
+  defp transform_wrap(_monad, x) do
     x
   end
 
