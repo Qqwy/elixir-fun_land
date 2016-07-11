@@ -14,6 +14,7 @@ Algebraic Data Types in Elixir
 - [ ] How to write proper code for the built-in types like List? (What to put in the monadic syntax? etc.)
 - [ ] Write as many tests as possible.
 - [ ] Revisit example code.
+- [ ] Compare with `Monad` library (and thank for do-notation implementation understanding).
 
 ## Installation
 

@@ -32,27 +32,19 @@ defmodule FunLand.Semicombinable do
   @type combinable(_) :: FunLand.adt
   @callback combine(combinable(a), combinable(a)) :: combinable(a) when a: any
 
-  def combine(a, b) do
-    do_combine(a, b)
-  end
-
   # Lists
-  def do_combine(a, b) when is_list(a) and is_list(b), do: Kernel.++(a, b)
-  def do_combine(a = %{}, b = %{}), do: :maps.merge(a, b)
+  def combine(a, b) when is_list(a) and is_list(b), do: Kernel.++(a, b)
 
   # Binaries
-  def do_combine(a, b) when is_binary(a) and is_binary(b), do: Kernel.<>(a, b)
-
-  # Numbers -- note: Uses addition.
-  def do_combine(a, b) when is_number(a) and is_number(b), do: Kernel.+(a, b)
+  def combine(a, b) when is_binary(a) and is_binary(b), do: Kernel.<>(a, b)
 
   # Behaviour
-  def do_combine(a = %combinable{}, b = %combinable{}) do
+  def combine(a = %combinable{}, b = %combinable{}) do
     combinable.combine(a, b)
   end
 
   # Maps
-  def do_combine(a = %{}, b = %{}) do
+  def combine(a = %{}, b = %{}) do
     :maps.merge(a, b)
   end
 

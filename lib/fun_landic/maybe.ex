@@ -28,4 +28,21 @@ defmodule Maybe do
   def chain(%Maybe{nothing?: true}, _fun), do: nothing()
   def chain(%Maybe{val: x}, fun), do: fun.(x)
 
+
+  use FunLand.Traversable
+
+  def traverse(%Maybe{nothing?: true}) do 
+
+  end
+
+  def reduce(%Maybe{nothing?: true}, acc, fun) do 
+    #IO.inspect(__ENV__) 
+    acc
+  end
+
+  def reduce(%Maybe{val: x}, acc, fun) do 
+    #IO.inspect(__ENV__) 
+    fun.(x, acc) 
+  end
+
 end

@@ -75,9 +75,6 @@ defmodule FunLand.Combinable do
   # Binaries
   def neutral(binary) when is_binary(binary), do: <<>>
 
-  # Numbers -- note, this works with integer addition.
-  def neutral(num) when is_number(num), do: 0
-
   # Behaviour
   def neutral(combinable = %combinable_module{}), do: combinable_module.neutral(combinable)
   
