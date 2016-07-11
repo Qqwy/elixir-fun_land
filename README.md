@@ -14,25 +14,19 @@ Algebraic Data Types in Elixir
 - [ ] How to write proper code for the built-in types like List? (What to put in the monadic syntax? etc.)
 - [ ] Write as many tests as possible.
 - [ ] Revisit example code.
+- [ ] Maybe include Comonad?
 - [ ] Compare with `Monad` library (and thank for do-notation implementation understanding).
+
+
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+If [available in Hex](https://hex.pm/docs/publish) (not yet!), the package can be installed as:
 
-  1. Add `fun_land` to your list of dependencies in `mix.exs`:
+Add `fun_land` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
       [{:fun_land, "~> 0.1.0"}]
     end
     ```
-
-  2. Ensure `fun_land` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:fun_land]]
-    end
-    ```
-
