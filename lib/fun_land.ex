@@ -29,15 +29,37 @@ defmodule FunLand do
   - `Reducable` -> A structure is reducable if you can fold/reduce it to a single value, when giving a Combinable or function+default.
   - `Traversable` -> A structure is Traversable if it is Reducable and there is a way to flip the ???
 
-  If you want, you can also call `use FunLand, operators: false` to not import the operators.
+  It will also import the following operators:
+
+  - `~>` Shorthand for `Mappable.map/2`
+  - `<~>` Shorthand for `Appliable.apply_with/2` 
+  - `~>>` Shorthand for `Chainable.chain/2`
+  - `<>` Shorthand for `Combinable.combine/2`. This operator still works the same for binaries, but will now also work for any other Chainable.
+
+  If you want, you can also call `use FunLand, operators: false` to not import these operators.
   """
 
   # Elixir doesn't let you _really_ define algebraic data types, so we're creating a 'one type fits all' type.
   @type adt :: [any] | {} | map | struct
 
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
+
+    # Only import operators if wanted.
+    import_code = 
+      if opts[:operators] == false do
+        quote do
+          import Kernel
+          import FunLand, except: [<>: 2, ~>: 2, <~>: 2, ~>>: 2]
+        end
+      else
+        quote do
+          import Kernel, except: [<>: 2]
+          import FunLand
+        end
+      end
+
     quote do
-      import Kernel, except: [<>: 2]
+      unquote(import_code)
 
       alias FunLand.{
         Mappable,
@@ -54,7 +76,6 @@ defmodule FunLand do
         
         CombinableMonad,
       }
-      import FunLand
     end
   end
 
