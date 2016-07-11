@@ -6,9 +6,8 @@ defmodule FunLandic.Identity do
   defstruct [:val]
   alias __MODULE__
 
-  use FunLand
 
-  use Monad
+  use FunLand.Monad
 
   # Mappable
   def map(%Identity{val: val}, fun) do
@@ -32,11 +31,17 @@ defmodule FunLandic.Identity do
 
 
 
-  use Reducable
+  use FunLand.Reducable
 
   def reduce(%Identity{val: val}, acc, fun) do
     fun.(val, acc)
   end
+
+  # TODO: Traversable
+
+  # TODO: Comonad
+
+
 
 
 end
