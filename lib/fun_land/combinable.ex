@@ -64,23 +64,26 @@ defmodule FunLand.Combinable do
 
   def neutral(combinable)
 
-  # Lists
-  def neutral(combinable) when is_list(combinable), do: []
-  def neutral(List), do: []
+  # stdlib modules
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
+    def neutral(unquote(stdlib_module)) do
+      unquote(module).neutral
+    end
+  end
 
-  # Tuple
-  def neutral(combinable) when is_tuple(combinable), do: {}
-  def neutral(Tuple), do: {}
+  # custom modules
+  def neutral(combinable_module) when is_atom(combinable_module), do: combinable_module.neutral
   
-  # Binaries
-  def neutral(binary) when is_binary(binary), do: <<>>
+  # stdlib types
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    def neutral(combinable) when unquote(guard)(combinable) do
+      unquote(module).neutral
+    end
+  end
 
   # Behaviour
-  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral(combinable)
+  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral
   
-  # Map
-  def neutral(%{}), do: %{}
-  def neutral(Map), do: %{}
 
 
 end

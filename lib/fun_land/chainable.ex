@@ -37,7 +37,15 @@ defmodule FunLand.Chainable do
   defdelegate apply_with(a, b), to: FunLand.Appliable
   
   def chain(chainable_a, chainable_b)
+
+  # Builtin datatypes
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    def chain(chainable_a, chainable_b) when is_function(chainable_b, 1) and unquote(guard)(chainable_a) do
+      unquote(module).chain(chainable_a, chainable_b)
+    end
+  end
   
+  # Custom structs
   def chain(a = %chainable{}, b) when is_function(b, 1) do
     chainable.chain(a, b)
   end

@@ -72,7 +72,7 @@ defmodule FunLand.Applicative do
   def wrap(module, a) when is_atom(module), do: module.wrap(a)
 
   for {guard, module} <- FunLand.Builtin.__builtin__ do
-    # When called with direct types
+    # When called with direct types like `{}` or `[]` or `"foo"`
     def wrap(applicative, a) when unquote(guard)(applicative) do
       unquote(module).wrap(a)
     end
