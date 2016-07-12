@@ -59,15 +59,26 @@ defmodule FunLand.Applicative do
 
   # Note difference wrap callback and implementation; we need two parameters here.
 
+
+
+  # For standard-library modules like `List`, delegate to e.g. `FunLand.Builtin.List`
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
+    def wrap(unquote(stdlib_module), a) do
+      unquote(module).wrap(a)
+    end
+  end
+
+  # When called with custom modulename
   def wrap(module, a) when is_atom(module), do: module.wrap(a)
 
-
   for {guard, module} <- FunLand.Builtin.__builtin__ do
+    # When called with direct types
     def wrap(applicative, a) when unquote(guard)(applicative) do
-      module.wrap(a)
+      unquote(module).wrap(a)
     end
     # TODO: Override Stdlib-modulenames in here as well?
   end
+
 
   # Free functions: 
 

@@ -1,7 +1,7 @@
 defmodule FunLand.Builtin.List do
+  use FunLand
 
-
-  use CombinableMonad
+  use FunLand.CombinableMonad
 
   def map(list, function) do
     :lists.map(function, list)
@@ -16,4 +16,7 @@ defmodule FunLand.Builtin.List do
     partial_results ++ apply_with(t, b)
   end
 
+  def wrap(elem), do: [elem]
+  def neutral, do: []
+    
 end

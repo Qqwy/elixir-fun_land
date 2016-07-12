@@ -149,6 +149,13 @@ defmodule FunLand do
        is_reference: FunLand.Builtin.Reference]
     end
 
+    def __stdlib__ do
+      stdlib_modules = ~w{List Tuple Atom Map BitString Integer Float Function PID Port Reference}
+      for module <- stdlib_modules do
+        {:"Elixir.#{module}", :"Elixir.FunLand.Builtin.#{module}"}
+      end
+    end
+
 
   end
 
