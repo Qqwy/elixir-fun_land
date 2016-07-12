@@ -132,7 +132,24 @@ defmodule FunLand do
     def const(x, _y), do: x
     def const_reverse(_x, y), do: y
 
-
-    
   end
+
+  defmodule Builtin do
+    def __builtin__ do
+      [is_tuple: FunLand.Builtin.Tuple,
+       is_atom: FunLand.Builtin.Atom,
+       is_list: FunLand.Builtin.List,
+       is_map: FunLand.Builtin.Map,
+       is_bitstring: FunLand.Builtin.BitString,
+       is_integer: FunLand.Builtin.Integer,
+       is_float: FunLand.Builtin.Float,
+       is_function: FunLand.Builtin.Function,
+       is_pid: FunLand.Builtin.PID,
+       is_port: FunLand.Builtin.Port,
+       is_reference: FunLand.Builtin.Reference]
+    end
+
+
+  end
+
 end

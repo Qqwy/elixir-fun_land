@@ -58,18 +58,26 @@ defmodule FunLand.Applicative do
   defdelegate apply_with(a, b), to: FunLand.Appliable
 
   # Note difference wrap callback and implementation; we need two parameters here.
-  def wrap([], a), do: [a]
-  def wrap(List, a), do: [a]
+
   def wrap(module, a) when is_atom(module), do: module.wrap(a)
 
+
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    def wrap(applicative, a) when unquote(guard)(applicative) do
+      module.wrap(a)
+    end
+    # TODO: Override Stdlib-modulenames in here as well?
+  end
+
+  # Free functions: 
 
   def apply_discard_right(a = %module{}, b = %module{}) do
     apply_with(map(a, Currying.curry(&const/2)), b)
   end
 
-  def apply_discard_right(a, b) when is_list(a) and is_list(b) do
-    apply_with(map([], Currying.curry(&const/2)), b)
-  end
+  # def apply_discard_right(a, b) when is_list(a) and is_list(b) do
+  #   apply_with(map([], Currying.curry(&const/2)), b)
+  # end
 
 
 
@@ -77,9 +85,9 @@ defmodule FunLand.Applicative do
     apply_with(map(a, Currying.curry(&reverse_const/2)), b)
   end
 
-  def apply_discard_left(a, b) when is_list(a) and is_list(b) do
-    apply_with(map([], Currying.curry(&reverse_const/2)), b)
-  end
+  # def apply_discard_left(a, b) when is_list(a) and is_list(b) do
+  #   apply_with(map([], Currying.curry(&reverse_const/2)), b)
+  # end
 
   defp const(x, _), do: x
   defp reverse_const(_, x), do: x

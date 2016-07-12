@@ -40,28 +40,36 @@ defmodule FunLand.Mappable do
     do_map(mappable, function)
   end
 
-  # Lists
-  defp do_map(list, function) when is_list(list) do
-    :lists.map(function, list)
-  end
+  # # Lists
+  # defp do_map(list, function) when is_list(list) do
+  #   :lists.map(function, list)
+  # end
 
-  # Tuples; Not fast, but possible
-  defp do_map(tuple, function) when is_tuple(tuple) do
-    tuple 
-    |> Tuple.to_list 
-    |> fn list -> :lists.map(function, list) end.() 
-    |> List.to_tuple
-  end
+  # # Tuples; Not fast, but possible
+  # defp do_map(tuple, function) when is_tuple(tuple) do
+  #   tuple 
+  #   |> Tuple.to_list 
+  #   |> fn list -> :lists.map(function, list) end.() 
+  #   |> List.to_tuple
+  # end
 
   # Structs with user-defined specification.
   defp do_map(mappable = %mappable_module{}, function) do
     mappable_module.map(mappable, function)
   end
 
-  # Maps.
-  defp do_map(map = %{}, function) do
-    # The passed function ought to have arity 1. For maps, this therefore means converting 
-    # the two arguments from :maps.map to a {k, v} tuple.
-    :maps.map(fn k, v -> function.({k, v}) end, map)
+
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    defp do_map(mappable, function) when unquote(guard)(mappable) do
+      unquote(module).map(mappable, function)
+    end
   end
+
+
+  # # Maps.
+  # defp do_map(map = %{}, function) do
+  #   # The passed function ought to have arity 1. For maps, this therefore means converting 
+  #   # the two arguments from :maps.map to a {k, v} tuple.
+  #   :maps.map(fn k, v -> function.({k, v}) end, map)
+  # end
 end

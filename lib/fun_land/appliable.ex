@@ -73,13 +73,10 @@ defmodule FunLand.Appliable do
     appliable_module.apply_with(a, b)
   end
 
-  # This implementation of `ap` is returning all possible solutions of combining the function(s) in `a` with the elements of `b`, AKA the cartesion product.
-  def apply_with(_fun_a=[], b) when is_list(b), do: []
-  def apply_with(_fun_a=[h | t], b) when is_list(b) and is_function(h) do
-    partial_results = for elem <- b do
-      h.(b)
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    def apply_with(a, b) when unquote(guard)(a) and unquote(guard)(b) do
+      module.apply_with(a, b)
     end
-    partial_results ++ apply_with(t, b)
   end
 
 end
