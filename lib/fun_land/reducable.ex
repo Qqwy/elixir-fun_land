@@ -17,6 +17,8 @@ defmodule FunLand.Reducable do
   This will therefore always be slower than a full-blown custom implementation that is specific for your structure.
 
   If you want to implement your own version of Enumerable, add Reducable with `use Reducable, auto_enumerable: false`.
+
+
   """
 
   @type reducable(_) :: FunLand.adt
@@ -35,6 +37,7 @@ defmodule FunLand.Reducable do
 
             def count(reducable), do: {:error, __MODULE__}
             def empty?(reducable), do: {:error, __MODULE__}
+            def member?(reducable, elem), do: {:error, __MODULE__}
             def reduce(reducable, acc, fun) do
               reducable
               |> @for.to_list

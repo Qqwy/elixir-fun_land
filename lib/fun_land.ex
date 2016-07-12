@@ -121,4 +121,18 @@ defmodule FunLand do
       end
     end
   end
+
+
+
+  defmodule Helper do
+    @moduledoc """
+    FunLand Helper functions for some common Algorithmic Data Type implementations.
+    """
+    def id(x), do: x
+    def const(x, _y), do: x
+    def const_reverse(_x, y), do: y
+
+
+    
+  end
 end
