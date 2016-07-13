@@ -16,7 +16,7 @@ defmodule FunLandic.Identity do
 
   # Appliable
   def apply_with(%Identity{val: fun}, %Identity{val: val}) do
-    wrap(Currying.curry(fun.val()))
+    wrap(Currying.curry(fun, val))
   end
 
   # Applicative

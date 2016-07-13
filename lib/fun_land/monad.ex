@@ -95,7 +95,7 @@ defmodule FunLand.Monad do
 
   # TODO: Handle builtin module names and standard types.
 
-  
+
   defmacro monadic(monad, do: block) when is_atom(monad) do
       IO.puts(Macro.to_string(block))
       res = 
@@ -114,7 +114,7 @@ defmodule FunLand.Monad do
       # transformed_wrap_res
   end
 
-  defp desugar_monadic_lines(_, [line = {:<-, _, [var, expr]}]) do
+  defp desugar_monadic_lines(_, [line = {:<-, _, [_var, _expr]}]) do
     raise "\"#{Macro.to_string(line)}\"  `<-` cannot appear on the last line of a monadic do block"
   end
 

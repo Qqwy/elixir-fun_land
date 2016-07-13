@@ -75,7 +75,7 @@ defmodule FunLand.Combinable do
   def neutral(combinable_module) when is_atom(combinable_module), do: combinable_module.neutral
 
   # Custom structs
-  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral
+  def neutral(%combinable_module{}), do: combinable_module.neutral
   
   # stdlib types
   for {guard, module} <- FunLand.Builtin.__builtin__ do

@@ -11,13 +11,19 @@ defmodule FunLand.Builtin.List do
   def apply_with([], b) when is_list(b), do: []
   def apply_with([h | t], b) when is_list(b) and is_function(h) do
     partial_results = for elem <- b do
-      h.(b)
+      h.(elem)
     end
     partial_results ++ apply_with(t, b)
   end
 
   def wrap(elem), do: [elem]
   def neutral, do: []
+
+  def chain(list, fun) do
+    for elem <- list, result <- fun.(elem) do
+      result
+    end
+  end
 
   use Reducable
 

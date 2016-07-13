@@ -1,7 +1,7 @@
 defmodule FunLand.Builtin.Tuple do
 
   use FunLand
-  use Appliable
+  use Mappable
 
   def map(tuple, function) do
     tuple
@@ -10,6 +10,5 @@ defmodule FunLand.Builtin.Tuple do
     |> List.to_tuple
   end
 
-  def wrap(elem), do: {elem}
 
 end
