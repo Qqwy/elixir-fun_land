@@ -70,18 +70,23 @@ defmodule FunLand.Reducable do
     end
   end
 
-  def reduce(a, acc, fun) do
-    do_reduce(a, acc, fun)
+  def reduce(reducable, acc, fun)
+
+  # custom behaviour
+  def reduce(reducable = %module{}, acc, fun) do
+    module.reduce(reducable, acc, fun)
+  end
+
+  for {guard, module} <- FunLand.Builtin.__builtin__ do
+    def reduce(reducable, acc, fun) when unquote(guard)(reducable) do
+      apply(unquote(module),:reduce, [reducable, acc, fun])
+    end
   end
 
   # lists
-  defp do_reduce([], acc, _fun), do: acc
-  defp do_reduce([h|t], acc, fun), do: do_reduce(t, fun.(h, acc), fun)
+  # defp do_reduce([], acc, _fun), do: acc
+  # defp do_reduce([h|t], acc, fun), do: do_reduce(t, fun.(h, acc), fun)
 
-  # custom behaviour
-  defp do_reduce(reducable = %module{}, acc, fun) do
-    module.reduce(reducable, acc, fun)
-  end
 
 
   # Using a Combinable

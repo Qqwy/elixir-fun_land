@@ -75,7 +75,7 @@ defmodule FunLand.Appliable do
 
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def apply_with(a, b) when unquote(guard)(a) and unquote(guard)(b) do
-      unquote(module).apply_with(a, b)
+      apply(unquote(module), :apply_with, [a, b])
     end
   end
 end

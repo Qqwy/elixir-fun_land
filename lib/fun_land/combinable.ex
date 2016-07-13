@@ -67,23 +67,22 @@ defmodule FunLand.Combinable do
   # stdlib modules
   for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
     def neutral(unquote(stdlib_module)) do
-      unquote(module).neutral
+      apply(unquote(module), :neutral, [])
     end
   end
 
   # custom modules
   def neutral(combinable_module) when is_atom(combinable_module), do: combinable_module.neutral
+
+  # Custom structs
+  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral
   
   # stdlib types
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def neutral(combinable) when unquote(guard)(combinable) do
-      unquote(module).neutral
+      apply(unquote(module), :neutral, [])
     end
   end
-
-  # Behaviour
-  def neutral(combinable = %combinable_module{}), do: combinable_module.neutral
-  
 
 
 end

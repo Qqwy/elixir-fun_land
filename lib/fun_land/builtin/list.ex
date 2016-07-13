@@ -18,5 +18,10 @@ defmodule FunLand.Builtin.List do
 
   def wrap(elem), do: [elem]
   def neutral, do: []
+
+  use Reducable
+
+  def reduce([], acc, _fun), do: acc
+  def reduce([h|t], acc, fun), do: reduce(t, fun.(h, acc), fun)
     
 end

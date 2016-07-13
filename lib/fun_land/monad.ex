@@ -92,7 +92,11 @@ defmodule FunLand.Monad do
   Inside the monadic context, the module of the monad that was defined is automatically imported.
   Any local calls to e.g. `wrap`, `apply`, `chain` or functions you've defined yourself in your monad module will thus be called on your module.
   """
-  defmacro monadic(monad, do: block) do
+
+  # TODO: Handle builtin module names and standard types.
+
+  
+  defmacro monadic(monad, do: block) when is_atom(monad) do
       IO.puts(Macro.to_string(block))
       res = 
         case block do

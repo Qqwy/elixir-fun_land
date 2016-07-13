@@ -64,7 +64,7 @@ defmodule FunLand.Applicative do
   # For standard-library modules like `List`, delegate to e.g. `FunLand.Builtin.List`
   for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
     def wrap(unquote(stdlib_module), a) do
-      unquote(module).wrap(a)
+      apply(unquote(module), :wrap, [a])
     end
   end
 
@@ -74,7 +74,7 @@ defmodule FunLand.Applicative do
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     # When called with direct types like `{}` or `[]` or `"foo"`
     def wrap(applicative, a) when unquote(guard)(applicative) do
-      unquote(module).wrap(a)
+      apply(unquote(module), :wrap, [a])
     end
     # TODO: Override Stdlib-modulenames in here as well?
   end
