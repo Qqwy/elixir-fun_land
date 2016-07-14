@@ -50,6 +50,17 @@ defmodule FunLand.Mappable do
   #   |> List.to_tuple
   # end
 
+  @doc """
+  Maps the function `function` over all things inside `mappable`.
+
+  Exactly what this means, depends on the structure of `mappable`.
+
+  For lists, for instance, this means that all of the elements will be transformed by `function`.
+  For the `Maybe` monad, this will do nothing if `Maybe` is `Nothing`, while it will transform whatever is inside
+  if the `Maybe` is `Just something`.
+  """
+  def map(mappable, function)
+
   # Structs with user-defined specification.
   def map(mappable = %mappable_module{}, function) when is_function(function, 1) do
     mappable_module.map(mappable, function)

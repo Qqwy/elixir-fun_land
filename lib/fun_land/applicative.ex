@@ -59,7 +59,12 @@ defmodule FunLand.Applicative do
 
   # Note difference wrap callback and implementation; we need two parameters here.
 
-
+  @doc """
+  Creates a new Algebraic Data Type that contains `value`.
+  The first parameter can either be the module name of the Algebraic Data Type that you want to create,
+  or it can be an instance of the same data type, such as `[]` for `List`, `{}` for Tuple, `%YourModule{}` for `YourModule`.
+  """
+  def wrap(module_or_data_type, value)
 
   # For standard-library modules like `List`, delegate to e.g. `FunLand.Builtin.List`
   for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
@@ -70,38 +75,45 @@ defmodule FunLand.Applicative do
 
   # When called with custom modulename
   def wrap(module, a) when is_atom(module), do: module.wrap(a)
+  # When called with Struct
+  def wrap(%module{}, a), do: module.wrap(a)
 
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     # When called with direct types like `{}` or `[]` or `"foo"`
     def wrap(applicative, a) when unquote(guard)(applicative) do
       apply(unquote(module), :wrap, [a])
     end
-    # TODO: Override Stdlib-modulenames in here as well?
   end
 
 
-  # Free functions: 
+  # Free function implementations: 
 
-  def apply_discard_right(a = %module{}, b = %module{}) do
-    apply_with(map(a, Currying.curry(&const/2)), b)
+  @doc """
+  Calls `Applicative.apply/2`, but afterwards discards the value that was the result of the rightmost argument.
+  (the one evaluated the last).
+
+  So in the end, the value that went in as left argument 
+  (The Algorithmic Data Type containing partially-applied functions) is returned.
+  
+  In Haskell, this is known as `<*`
+  """
+  # TODO: Verify implementation.
+  def apply_discard_right(a, b) do
+    apply_with(map(a, Currying.curry(&FunLand.Helper.const/2)), b)
   end
 
-  # def apply_discard_right(a, b) when is_list(a) and is_list(b) do
-  #   apply_with(map([], Currying.curry(&const/2)), b)
-  # end
+  @doc """
+  Calls `Applicative.apply/2`, but afterwards discards the value that was the result of the leftmost argument.
+  (the one evaluated the first).
 
-
-
-  def apply_discard_left(a = %module{}, b = %module{}) do
-    apply_with(map(a, Currying.curry(&reverse_const/2)), b)
+  So in the end, the value that went in as right argument 
+  (The Algorithmic Data Type containing values) is returned.
+  
+  In Haskell, this is known as `*>`
+  """
+  # TODO: Verify implementation.
+  def apply_discard_left(a, b) do
+    apply_with(map(a, Currying.curry(&FunLand.Helper.const_reverse/2)), b)
   end
-
-  # def apply_discard_left(a, b) when is_list(a) and is_list(b) do
-  #   apply_with(map([], Currying.curry(&reverse_const/2)), b)
-  # end
-
-  defp const(x, _), do: x
-  defp reverse_const(_, x), do: x
-
 
 end

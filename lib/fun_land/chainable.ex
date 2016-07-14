@@ -38,8 +38,13 @@ defmodule FunLand.Chainable do
   defdelegate wrap(module), to: FunLand.Applicative
   
 
+  @doc """
+  Chains a function that returns a Chainable at the end of some calculation that returns a Chainable.
 
-  def chain(chainable_a, chainable_b)
+  So to `chain` means: Taking the result of an operation that returns a container outside of its container,
+  and passing it in to the next function, finally returning the resulting container.
+  """
+  def chain(chainable, function_that_returns_new_chainable)
 
   # Custom structs
   def chain(a = %chainable{}, b) when is_function(b, 1) do

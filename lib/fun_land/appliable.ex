@@ -67,7 +67,18 @@ defmodule FunLand.Appliable do
 
   defdelegate map(a, fun), to: FunLand.Mappable
 
-  def apply_with(applyable_a, applyable_b)
+  @doc """
+  Applies `appliable_with_function_inside`, which should only contain functions, with as arguments
+  the elements inside `appliable_b`. 
+
+  For a List, this means that the list(s) that are made by mapping each of the functions inside
+  `appliable_with_function_inside` over the elements of `appliable_b` are concatenated, so a single list of all
+  results is returned.
+
+  For `Maybe`, whenever one of the two arguments is `Nothing`, `Nothing` will be returned. If both are filled, then a result will be computed,
+  and this result will be returned, wrapped in a new Maybe. 
+  """
+  def apply_with(appliable_with_function_inside, appliable_b)
 
   def apply_with(a = %appliable_module{}, b = %appliable_module{}) do
     appliable_module.apply_with(a, b)
