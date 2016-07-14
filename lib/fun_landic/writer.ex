@@ -1,14 +1,17 @@
 defmodule FunLandic.Writer do
-  use Monad
+  use FunLand.Monad
 
   def __using__(_opts) do
-    use Monad
-    @behaviour FunLandic.Writer
-  
-    defdelegate map(writer, function), to: FunLandic.Writer
-    defdelegate apply_with(writer_with_function, writer_with_value), to: FunLandic.Writer
-    defdelegate chain(writer, function), to: FunLandic.Writer
-    defdelegate wrap(), to: FunLandic.Writer
+    quote do
+
+      use FunLand.Monad
+      @behaviour FunLandic.Writer
+    
+      defdelegate map(writer, function), to: FunLandic.Writer
+      defdelegate apply_with(writer_with_function, writer_with_value), to: FunLandic.Writer
+      defdelegate chain(writer, function), to: FunLandic.Writer
+      defdelegate wrap(), to: FunLandic.Writer
+    end
 
   end
   
@@ -25,6 +28,7 @@ defmodule FunLandic.Writer do
   A Writer is represented by a 'value', a 'log' and the log_combinable_module??
   """
   defstruct [:val, :log]
+  alias __MODULE__
 
   def map(%Writer{val: val, log: log}, fun), do: %Writer{val: fun.(val), log: log}
 
@@ -37,8 +41,8 @@ defmodule FunLandic.Writer do
   end
 
   def chain(%Writer{val: val, log: log}, fun) do
-    %Writer{val: result_val, log: result_log}
-    %Writer{val: result_val, log: Combinable.combine(result_log, log}
+    %Writer{val: result_val, log: result_log} = fun.(val)
+    %Writer{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
   end
 
 end
