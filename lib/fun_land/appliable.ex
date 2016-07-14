@@ -65,7 +65,7 @@ defmodule FunLand.Appliable do
   end
 
 
-  defdelegate map(mappable, fun), to: FunLand.Mappable
+  defdelegate map(a, fun), to: FunLand.Mappable
 
   def apply_with(applyable_a, applyable_b)
 

@@ -19,6 +19,14 @@ defmodule FunLand.CombinableMonad do
     end
   end
 
+  # Combinable
+  defdelegate combine(a, b), to: FunLand.Semicombinable
+  defdelegate neutral(module), to: FunLand.Combinable
 
-  # TODO: How to write guard for lists, etc?
+  # Monad
+  defdelegate map(a, fun), to: FunLand.Mappable
+  defdelegate apply_with(a, b), to: FunLand.Appliable
+  defdelegate wrap(module, a), to: FunLand.Applicative
+  defdelegate chain(a, fun), to: FunLand.Chainable
+
 end

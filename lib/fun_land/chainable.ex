@@ -33,9 +33,12 @@ defmodule FunLand.Chainable do
     end
   end
 
-
+  defdelegate map(a, fun), to: FunLand.Mappable
   defdelegate apply_with(a, b), to: FunLand.Appliable
+  defdelegate wrap(module), to: FunLand.Applicative
   
+
+
   def chain(chainable_a, chainable_b)
 
   # Custom structs

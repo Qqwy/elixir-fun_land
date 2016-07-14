@@ -68,9 +68,10 @@ defmodule FunLand.Monad do
   end
 
 
+  defdelegate map(a, fun), to: FunLand.Mappable
   defdelegate apply_with(a, b), to: FunLand.Appliable
   defdelegate wrap(module, a), to: FunLand.Applicative
-  defdelegate chain(a, b), to: FunLand.Chainable
+  defdelegate chain(a, fun), to: FunLand.Chainable
 
 
   # TODO: Implement `fail`. Or separate this into another behaviour?
