@@ -35,7 +35,7 @@ defmodule FunLand.Chainable do
 
   defdelegate map(a, fun), to: FunLand.Mappable
   defdelegate apply_with(a, b), to: FunLand.Appliable
-  defdelegate wrap(module), to: FunLand.Applicative
+  defdelegate wrap(module, val), to: FunLand.Applicative
   
 
   @doc """

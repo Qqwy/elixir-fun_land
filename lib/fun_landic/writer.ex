@@ -1,18 +1,43 @@
 defmodule FunLandic.Writer do
-  use FunLand.Monad
 
-  def __using__(_opts) do
+  defmacro __using__(_opts) do
     quote do
-
       use FunLand.Monad
       @behaviour FunLandic.Writer
-    
-      defdelegate map(writer, function), to: FunLandic.Writer
-      defdelegate apply_with(writer_with_function, writer_with_value), to: FunLandic.Writer
-      defdelegate chain(writer, function), to: FunLandic.Writer
-      defdelegate wrap(), to: FunLandic.Writer
-    end
 
+      defstruct [:val, :log]
+
+      def map(%__MODULE__{val: val, log: log}, fun), do: %__MODULE__{val: fun.(val), log: log}
+
+      def wrap(val) do
+        %__MODULE__{val: val, log: log_combinable_module().neutral}
+      end
+
+      # TODO: Verify implementation
+      def apply_with(%__MODULE__{val: fun, log: log}, %__MODULE__{val: val, log: log}) do
+        %__MODULE__{val: result_val, log: result_log} = fun.(val)
+        %__MODULE__{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
+      end
+
+      def chain(%__MODULE__{val: val, log: log}, fun) do
+        %__MODULE__{val: result_val, log: result_log} = fun.(val)
+        %__MODULE__{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
+      end
+
+      # Writer-specific
+
+      def tell(info) do
+        %__MODULE__{val: nil, log: info}
+      end
+
+      def write(action, info) do
+        monadic do
+          tell(info)
+          wrap(action)
+        end
+      end
+    
+    end
   end
   
   @doc """
@@ -27,22 +52,22 @@ defmodule FunLandic.Writer do
   @doc """
   A Writer is represented by a 'value', a 'log' and the log_combinable_module??
   """
-  defstruct [:val, :log]
-  alias __MODULE__
+  # defstruct [:val, :log]
+  # alias __MODULE__
 
-  def map(%Writer{val: val, log: log}, fun), do: %Writer{val: fun.(val), log: log}
+  # def map(%Writer{val: val, log: log}, fun), do: %Writer{val: fun.(val), log: log}
 
-  def apply_with(%Writer{val: fun, log: log}, %Writer{val: val, log: log}) do
-    # ???
-  end
+  # def apply_with(%Writer{val: fun, log: log}, %Writer{val: val, log: log}) do
+  #   # ???
+  # end
 
-  def wrap() do
+  # def wrap() do
 
-  end
+  # end
 
-  def chain(%Writer{val: val, log: log}, fun) do
-    %Writer{val: result_val, log: result_log} = fun.(val)
-    %Writer{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
-  end
+  # def chain(%Writer{val: val, log: log}, fun) do
+  #   %Writer{val: result_val, log: result_log} = fun.(val)
+  #   %Writer{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
+  # end
 
 end
