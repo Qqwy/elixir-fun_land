@@ -21,7 +21,7 @@ defmodule FunLandic.Writer do
 
       def chain(%__MODULE__{val: val, log: log}, fun) do
         %__MODULE__{val: result_val, log: result_log} = fun.(val)
-        %__MODULE__{val: result_val, log: FunLand.Combinable.combine(result_log, log)}
+        %__MODULE__{val: result_val, log: FunLand.Combinable.combine(log, result_log)}
       end
 
       # Writer-specific
@@ -36,6 +36,8 @@ defmodule FunLandic.Writer do
           wrap(action)
         end
       end
+
+      defoverridable [map: 2, apply_with: 2, chain: 2, tell: 1, write: 2]
     
     end
   end
