@@ -2,20 +2,20 @@ defmodule FunLandic.IOListWriter do
   use FunLand
   use FunLandic.Writer
 
-  @moduledoc """
+  # @moduledoc """
 
-  ## Example: 
+  # ## Example: 
   
-      require FunLandic.IOListWriter
-      FunLandic.IOListWriter.monadic do
-      let x = 20
-      wrap(20)
-      tell("test")
-      y <- wrap(x*10)
-      write(x+y, "#{x} plus #{y}")   
-      end
+  #     require FunLandic.IOListWriter
+  #     FunLandic.IOListWriter.monadic do
+  #       let x = 20
+  #       wrap(20)
+  #       tell("test")
+  #       y <- wrap(x*10)
+  #       write(x+y, "#{x} plus #{y}")   
+  #     end
 
-  """
+  # """
 
   def log_combinable_module, do: FunLand.Builtin.List
 

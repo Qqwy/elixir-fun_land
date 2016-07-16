@@ -1,7 +1,7 @@
 defmodule FunLandic.Writer do
 
   defmacro __using__(_opts) do
-    quote do
+    quote location: :keep do
       use FunLand.Monad
       @behaviour FunLandic.Writer
 
