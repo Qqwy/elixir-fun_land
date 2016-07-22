@@ -31,6 +31,7 @@ Mostly lacking are:
   - [x] *Semicombinable* - Anything which, when you have two of them, you can `combine` them together into one.
   - [x] *Combinable* - Anything that is Combinable, and also has a `neutral` value which you can combine something with when you don't have anything else, to keep the result the same.
   - [x] *CombinableMonad* - Any structure that is both a Monad and Combinable.
+  - [x] *Reducable* - Any structure that can be `reduce`d to a single value, when given a Combinable (or alternatively, a starting value and a function to combine this with a single value inside the structure). 
   - [ ] Traversable - TODO.
   - [ ] Comonad
 - [x] Also, where to put these practical implementations? -> FunLandic.*
@@ -48,7 +49,8 @@ Mostly lacking are:
    - [x] Product - Combine any Mappable filled with numbers by multiplying them.
    - [x] Any - Combine any Mappable filled with booleans by checking if some property is true for at least one of them.
    - [x] All - Combine any Mappable filled with booleans by checking if some property is true for all of them.
-   - [ ] Either - Contains two results, returns the first result that is not empty.
+   - [ ] Either/Result - Contains two results, returns the first result of the two that is not empty.
+   - [ ] a simple BinaryTree to show how to manipulate these instead of lists.
 - [ ] Fully write this readme.
 - [ ] Extend documentation.
   - [ ] More Fruit Salad explanations.
