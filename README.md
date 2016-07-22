@@ -50,6 +50,6 @@ Add `fun_land` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:fun_land, "~> 0.1.0"}]
+      [{:fun_land, "~> 0.5.0"}]
     end
     ```
