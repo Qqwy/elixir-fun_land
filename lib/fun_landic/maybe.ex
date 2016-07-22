@@ -45,20 +45,16 @@ defmodule FunLandic.Maybe do
   use FunLand.Traversable
 
   def traverse(%Maybe{nothing?: true}) do 
-
+    # TODO
   end
 
   def reduce(%Maybe{nothing?: true}, acc, _fun) do 
-    #IO.inspect(__ENV__) 
     acc
   end
 
   def reduce(%Maybe{val: x}, acc, fun) do 
-    #IO.inspect(__ENV__) 
     fun.(x, acc) 
   end
-
-  # Combinable
 
 
 end
