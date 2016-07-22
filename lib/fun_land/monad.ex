@@ -108,7 +108,7 @@ defmodule FunLand.Monad do
           line -> 
             {:__block__, [], [import_unless_monad_open(monad) | desugar_monadic_lines(monad, [line])]}
         end
-      IO.puts(Macro.to_string(res))
+      #IO.puts(Macro.to_string(res))
       res
       # transformed_wrap_res = transform_wrap(monad, res)
       # IO.puts(Macro.to_string(transformed_wrap_res))
