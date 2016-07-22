@@ -25,6 +25,10 @@ defmodule FunLand.Builtin.List do
     end
   end
 
+  def combine(list_a, list_b) do
+    list_a ++ list_b
+  end
+
   use Reducable
 
   def reduce([], acc, _fun), do: acc

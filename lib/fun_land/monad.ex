@@ -104,15 +104,23 @@ defmodule FunLand.Monad do
           nil ->
             raise ArgumentError, message: "missing or empty do block"
           {:__block__, meta, lines} -> 
-            {:__block__, meta, [quote do import unquote(monad) end | desugar_monadic_lines(monad, lines)]}
+            {:__block__, meta, [import_unless_monad_open(monad) | desugar_monadic_lines(monad, lines)]}
           line -> 
-            {:__block__, [], [quote do import unquote(monad) end | desugar_monadic_lines(monad, [line])]}
+            {:__block__, [], [import_unless_monad_open(monad) | desugar_monadic_lines(monad, [line])]}
         end
       IO.puts(Macro.to_string(res))
       res
       # transformed_wrap_res = transform_wrap(monad, res)
       # IO.puts(Macro.to_string(transformed_wrap_res))
       # transformed_wrap_res
+  end
+
+  defp import_unless_monad_open(monad) do
+    if Module.open?(monad) do
+      quote do end
+    else
+      quote do import unquote(monad) end
+    end
   end
 
   defp desugar_monadic_lines(_, [line = {:<-, _, [_var, _expr]}]) do

@@ -7,7 +7,7 @@ defmodule FunLandic.All do
   Note that `All` is true for an empty Reducable.
   """
 
-  use Combinable
+  use FunLand.Combinable
 
   def neutral, do: true
   def combine(a, b), do: a && b

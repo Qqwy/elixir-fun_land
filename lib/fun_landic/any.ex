@@ -5,7 +5,7 @@ defmodule FunLandic.Any do
   Otherwise, `false` is returned.
   """
 
-  use Combinable
+  use FunLand.Combinable
 
   def neutral, do: false
   def combine(a, b), do: a || b
