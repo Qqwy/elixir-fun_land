@@ -1,7 +1,22 @@
 # FunLand
 
-Algebraic Data Types in Elixir
+FunLand adds Behaviours to define [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type) ('Container' data types) to Elixir, including many helpful operations with them. Where applicable, an ADT implementation for Elixir's built-in types like Lists, Maps, Strings and Functions are included.
 
+Also included are some implementations of commonly-used ADTs, for your leisure. _(These might be split off in their own library in the future)_
+
+FunLand is based on ideas of the [Fantasy Land](https://github.com/fantasyland/fantasy-land) JavaScript specification for Algebraic Data Types, as well as the implementations of ADTs in other languages, such as [Haskell](haskell.org) and [Idris](http://idris-lang.org/). 
+
+FunLand attempts to use understandable names for the different behaviours and functions, to make ADTs as approachable to newcomers as possible.
+
+### Pre-release version
+
+As can be seen below in the roadmap, FunLand is not fully finished yet.
+
+Mostly lacking are:
+
+- Better documentation
+- Implementation of Traversable. _(I still have trouble understanding this thing myself)_
+- Tests for most of the example implementations.
 
 ### Roadmap
 
