@@ -13,6 +13,7 @@ defmodule FunLandic.Either do
 
   use FunLand
   use Monad
+  use Reducable
 
   defstruct [:val, right?: true]
   alias __MODULE__
@@ -60,5 +61,11 @@ defmodule FunLandic.Either do
   def chain(either = %Either{right?: false, val: val}, _fun) do
     either
   end
+
+  # Reducable behavior implementations
+
+  def reduce(either, acc, fun)
+  def reduce(either = %Either{right?: false}, acc, _fun), do: acc
+  def reduce(either = %Either{right?: true, val: val}, acc, fun), do: fun.(val, acc)
 
 end

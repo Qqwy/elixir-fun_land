@@ -66,6 +66,16 @@ defmodule FunLand.Reducable do
         |> :lists.reverse
       end
 
+      @doc """
+      A variant of reduce/3 that accepts anything that is Combinable
+      as second argument. This Combinable will determine what the neutral value and the
+      combining operation will be.
+      """
+      def reduce(a, combinable) do
+        reduce(a, combinable.neutral, &combinable.combine/2)
+      end
+
+
       unquote(enum_protocol_implementation)
     end
   end
