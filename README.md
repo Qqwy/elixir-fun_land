@@ -49,7 +49,7 @@ Mostly lacking are:
    - [x] Product - Combine any Mappable filled with numbers by multiplying them.
    - [x] Any - Combine any Mappable filled with booleans by checking if some property is true for at least one of them.
    - [x] All - Combine any Mappable filled with booleans by checking if some property is true for all of them.
-   - [ ] Either/Result - Contains two results, returns the first result of the two that is not empty.
+   - [x] Either/Result - Contains two results, returns the first result of the two that is not empty.
    - [ ] a simple BinaryTree to show how to manipulate these instead of lists.
 - [ ] Fully write this readme.
 - [ ] Extend documentation.

@@ -3,7 +3,7 @@ defmodule FunLand.Mixfile do
 
   def project do
     [app: :fun_land,
-     version: "0.5.0",
+     version: "0.6.0",
      elixir: "~> 1.3",
      description: description,
      package: package,
@@ -31,7 +31,7 @@ defmodule FunLand.Mixfile do
   defp deps do
     [
       {:currying, "~> 1.0"},
-      
+
       {:dialyxir, "~> 0.3", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev} 
     ]
