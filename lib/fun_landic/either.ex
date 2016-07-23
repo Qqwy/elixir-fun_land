@@ -30,6 +30,15 @@ defmodule FunLandic.Either do
     %Either{val: val, right?: false}
   end
 
+  def left?(either)
+  def left?(%Either{right?: false}), do: true
+  def left?(%Either{right?: true}),  do: false
+
+  def right?(either)
+  def right?(%Either{right?: false}), do: false
+  def right?(%Either{right?: true}),  do: true
+
+
   def run_either(either, function_if_left, function_if_right)
   
   def run_either(%Either{right?: false, val: val}, function_if_left, _), do: function_if_left.(val) 
