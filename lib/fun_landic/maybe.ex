@@ -4,8 +4,8 @@ defmodule FunLandic.Maybe do
   alias __MODULE__
 
   defimpl Inspect do
-    def inspect(%Maybe{nothing?: true}, _opts), do: "#Maybe{Nothing}"
-    def inspect(%Maybe{val: x}, _opts), do: "#Maybe{Just #{inspect x}}"
+    def inspect(%Maybe{nothing?: true}, _opts), do: "Maybe.nothing"
+    def inspect(%Maybe{val: x}, _opts), do: "Maybe.just(#{inspect x})"
   end
 
   def nothing(), do: %Maybe{nothing?: true}

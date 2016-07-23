@@ -97,8 +97,8 @@ defmodule FunLand.Monad do
   # TODO: Handle builtin module names and standard types.
 
 
-  defmacro monadic(monad, do: block) when is_atom(monad) do
-      IO.puts(Macro.to_string(block))
+  defmacro monadic(monad, do: block) do
+      #IO.puts(Macro.to_string(block))
       res = 
         case block do
           nil ->
@@ -110,9 +110,6 @@ defmodule FunLand.Monad do
         end
       #IO.puts(Macro.to_string(res))
       res
-      # transformed_wrap_res = transform_wrap(monad, res)
-      # IO.puts(Macro.to_string(transformed_wrap_res))
-      # transformed_wrap_res
   end
 
   defp import_unless_monad_open(monad) do
