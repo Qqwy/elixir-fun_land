@@ -30,6 +30,11 @@ defmodule FunLandic.Either do
     %Either{val: val, right?: false}
   end
 
+  def run_either(either, function_if_left, function_if_right)
+  
+  def run_either(%Either{right?: false, val: val}, function_if_left, _), do: function_if_left.(val) 
+  def run_either(%Either{right?: true, val: val}, _, function_if_right), do: function_if_right.(val) 
+
   # Monad behaviour implementations
 
   def map(left = %Either{right?: false}, fun), do: left
