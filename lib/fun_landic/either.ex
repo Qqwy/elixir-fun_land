@@ -55,7 +55,7 @@ defmodule FunLandic.Either do
   def wrap(val), do: right(val)
 
   def chain(either = %Either{right?: true, val: val}, fun) do
-    right(fun.(val))
+    fun.(val)
   end
   def chain(either = %Either{right?: false, val: val}, _fun) do
     either
