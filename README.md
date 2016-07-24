@@ -65,6 +65,6 @@ The package is available on [hex](https://hex.pm/packages/fun_land) and can can 
 
 ```elixir
 def deps do
-  [{:fun_land, "~> 0.6.0"}]
+  [{:fun_land, "~> 0.6.1"}]
 end
 ```
