@@ -61,12 +61,10 @@ Mostly lacking are:
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish) (not yet!), the package can be installed as:
+The package is available on [hex](https://hex.pm/packages/fun_land) and can can be specified as a dependency by adding the snippet below in your `mix.exs`.
 
-Add `fun_land` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:fun_land, "~> 0.5.0"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:fun_land, "~> 0.6.0"}]
+end
+```
