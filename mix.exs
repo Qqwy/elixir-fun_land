@@ -3,7 +3,7 @@ defmodule FunLand.Mixfile do
 
   def project do
     [app: :fun_land,
-     version: "0.6.1",
+     version: "0.6.2",
      elixir: "~> 1.3",
      description: description,
      package: package,
@@ -39,14 +39,7 @@ defmodule FunLand.Mixfile do
 
   defp description do
     """
-    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, 
-    including many helpful operations with them.
-    
-    FunLand attempts to use understandable names for the different behaviours and functions, 
-    to make ADTs as approachable to newcomers as possible.
-
-    Some examples of Algebraic Data Types are Mappables (Functors), Applicatives and Monads.
-
+    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, such as Functors and Monads. 
     """
   end
 
