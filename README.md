@@ -1,5 +1,8 @@
 # FunLand
 
+[![hex.pm version](https://img.shields.io/hexpm/v/fun_land.svg)](https://hex.pm/packages/fun_land)
+
+
 FunLand adds Behaviours to define [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type) ('Container' data types) to Elixir, including many helpful operations with them. Where applicable, an ADT implementation for Elixir's built-in types like Lists, Maps, Strings and Functions are included.
 
 Also included are some implementations of commonly-used ADTs, for your leisure. _(These might be split off in their own library in the future)_
@@ -51,7 +54,7 @@ Mostly lacking are:
    - [x] All - Combine any Mappable filled with booleans by checking if some property is true for all of them.
    - [x] Either/Result - Contains two results, returns the first result of the two that is not empty.
    - [ ] a simple BinaryTree to show how to manipulate these instead of lists.
-- [ ] Fully write this readme.
+   - [ ] Fully write this readme.
 - [ ] Extend documentation.
   - [ ] More Fruit Salad explanations.
 - [ ] Write as many tests as possible.
@@ -65,6 +68,6 @@ The package is available on [hex](https://hex.pm/packages/fun_land) and can can 
 
 ```elixir
 def deps do
-  [{:fun_land, "~> 0.6.1"}]
+  [{:fun_land, "~> 0.7.3"}]
 end
 ```
