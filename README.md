@@ -1,7 +1,7 @@
 # FunLand
 
 [![hex.pm version](https://img.shields.io/hexpm/v/fun_land.svg)](https://hex.pm/packages/fun_land)
-
+[![Build Status](https://travis-ci.org/Qqwy/elixir_fun_land.svg?branch=master)](https://travis-ci.org/Qqwy/elixir_fun_land)
 
 FunLand adds Behaviours to define [Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type) ('Container' data types) to Elixir, including many helpful operations with them. Where applicable, an ADT implementation for Elixir's built-in types like Lists, Maps, Strings and Functions are included.
 
@@ -68,6 +68,6 @@ The package is available on [hex](https://hex.pm/packages/fun_land) and can can 
 
 ```elixir
 def deps do
-  [{:fun_land, "~> 0.7.3"}]
+  [{:fun_land, "~> 0.7.4"}]
 end
 ```
