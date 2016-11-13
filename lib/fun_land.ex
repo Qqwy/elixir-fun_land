@@ -80,7 +80,7 @@ defmodule FunLand do
   end
 
   @doc """
-  Infix version of `FunLand.Appliable.map/2`
+  Infix version of `FunLand.Mappable.map/2`
   """
   def a ~> b do
     FunLand.Mappable.map(a, b)
