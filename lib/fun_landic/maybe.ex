@@ -4,15 +4,12 @@ defmodule FunLandic.Maybe do
   alias __MODULE__
 
   defimpl Inspect do
-    def inspect(%Maybe{nothing?: true}, _opts), do: "Maybe.nothing"
-    def inspect(%Maybe{val: x}, _opts), do: "Maybe.just(#{inspect x})"
+    def inspect(%Maybe{nothing?: true}, _opts), do: "FunLandic.Maybe.nothing()"
+    def inspect(%Maybe{val: x}, _opts), do: "FunLandic.Maybe.just(#{inspect x})"
   end
 
   def nothing(), do: %Maybe{nothing?: true}
   def just(x), do: %Maybe{nothing?: false, val: x}
-
-  def from_just(%Maybe{nothing?: false, val: x}), do: x
-  def from_just(%Maybe{}), do: raise "Passed value was nothing!"
 
 
   # Monad behaviour callbacks
@@ -39,8 +36,6 @@ defmodule FunLandic.Maybe do
 
   # Combinable
   def neutral, do: nothing()
-
-
 
   use FunLand.Traversable
 

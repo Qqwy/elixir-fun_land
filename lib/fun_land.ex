@@ -1,14 +1,15 @@
 defmodule FunLand do
   @moduledoc """
   FunLand defines many different Algebraic Data Types.
-  
+
   An Algebraic Data Type is nothing more, than a 'container' for some other data type.
+  Exactly how that 'container' behaves is what makes one ADT different from another.
 
   Lists are ADTs. And so are Maps. And Sets. And Tuples. And many other things.
 
-  Algebraic Data Types have no intrinsic value of their own. They get value, once you fill them with something, 
-  and have operations you can perform on their contents.
-  
+  Algebraic Data Types contain no value of their own. They get a value, once you fill them with something,
+  and then have useful operations you can perform on their contents.
+
   There are many similarities in the way the different ADTs work. This allows us to define behaviours which
   generalize to all ADTs. Any of your custom data types that you can implement one or multiple of these behaviours for,
   is an ADT, and will receive the benefits that the implemented ADTs give.
@@ -86,6 +87,14 @@ defmodule FunLand do
   defdelegate reduce(reducable, accumulator, fun), to: FunLand.Reducable
   defdelegate reduce(reducable, combinable), to: FunLand.Reducable
 
+  def any?(reducable, property_fun) do
+    FunLand.Reducable.reduce(reducable, false, fn elem, acc -> acc || property_fun.(elem) end)
+  end
+
+  def all?(reducable, property_fun) do
+    FunLand.Reducable.reduce(reducable, true, fn elem, acc -> acc && property_fun.(elem) end)
+  end
+
   @doc """
   Infix version of `FunLand.Mappable.map/2`
   """
@@ -113,7 +122,7 @@ defmodule FunLand do
 
   Note that binary strings are Combinable, so "foo" <> "bar" still works.
 
-  `<>/2` can still be used in pattern-matches and guard clauses, but it will fall back to the 
+  `<>/2` can still be used in pattern-matches and guard clauses, but it will fall back to the
   behavior of `Kernel.<>/2`, which means that it will only work with binary strings.
   """
   defmacro left <> right do

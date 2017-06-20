@@ -29,8 +29,21 @@ defmodule FunLand.Builtin.List do
     list_a ++ list_b
   end
 
-  use Reducable
+  use FunLand.Reducable
 
-  def reduce([], acc, _fun), do: acc
-  def reduce([h|t], acc, fun), do: reduce(t, fun.(h, acc), fun)
+  def reduce(list, acc, fun) do
+    :lists.foldr(fun, acc, list)
+  end
+
+  use FunLand.Traversable
+
+  def traverse(list, result_module, fun) do
+    cons_fun = fn elem, acc ->
+      result_module.map(fun.(elem), Currying.curry(&cons/2))
+      |> result_module.apply_with(acc)
+    end
+    reduce(list, result_module.new([]), cons_fun)
+  end
+
+  defp cons(head, tail), do: [head | tail]
 end
