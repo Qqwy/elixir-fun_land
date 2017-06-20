@@ -98,6 +98,17 @@ defmodule FunLand.Monad do
 
   Inside the monadic context, the module of the monad that was defined is automatically imported.
   Any local calls to e.g. `new`, `apply`, `chain` or functions you've defined yourself in your monad module will thus be called on your module.
+
+
+  ### Examples
+
+      iex> require FunLand.Monad
+      iex> FunLand.Monad.monadic({:ok, nil}) do
+      iex>   x <- {:ok, 10}
+      iex>   y <- {:ok, 20}
+      iex>   new(x * y)
+      iex> end
+      {:ok, 200}
   """
 
   # TODO: Handle builtin module names and standard types.
