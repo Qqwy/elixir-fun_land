@@ -26,7 +26,7 @@ defmodule FunLand.CombinableMonad do
   # Monad
   defdelegate map(a, fun), to: FunLand.Mappable
   defdelegate apply_with(a, b), to: FunLand.Appliable
-  defdelegate wrap(module, a), to: FunLand.Applicative
+  defdelegate new(module, a), to: FunLand.Applicative
   defdelegate chain(a, fun), to: FunLand.Chainable
 
 end

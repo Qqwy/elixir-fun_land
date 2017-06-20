@@ -5,7 +5,7 @@ defmodule FunLand.Mappable do
   `mapping` means to apply a transformation to the contents, without changing the structure.
 
 
-  This module both contains the Mappable behaviour, which might be added 
+  This module both contains the Mappable behaviour, which might be added
   to your modules/structures by using `use Mappable` from within them,
   as well as the `Mappable.map(mappable, fun)` function, which will dispatch to whatever structure is passed in as first argument.
 
@@ -36,27 +36,13 @@ defmodule FunLand.Mappable do
     end
   end
 
-
-  # # Lists
-  # def map(list, function) when is_list(list) do
-  #   :lists.map(function, list)
-  # end
-
-  # # Tuples; Not fast, but possible
-  # def map(tuple, function) when is_tuple(tuple) do
-  #   tuple 
-  #   |> Tuple.to_list 
-  #   |> fn list -> :lists.map(function, list) end.() 
-  #   |> List.to_tuple
-  # end
-
   @doc """
   Maps the function `function` over all things inside `mappable`.
 
   Exactly what this means, depends on the structure of `mappable`.
 
   For lists, for instance, this means that all of the elements will be transformed by `function`.
-  For the `Maybe` monad, this will do nothing if `Maybe` is `Nothing`, while it will transform whatever is inside
+  For `Maybe`, this will do nothing if `Maybe` is `Nothing`, while it will transform whatever is inside
   if the `Maybe` is `Just something`.
   """
   def map(mappable, function)
@@ -66,18 +52,9 @@ defmodule FunLand.Mappable do
     mappable_module.map(mappable, function)
   end
 
-
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def map(mappable, function) when is_function(function, 1) and unquote(guard)(mappable) do
       apply(unquote(module), :map, [mappable, function])
     end
   end
-
-
-  # # Maps.
-  # def map(map = %{}, function) do
-  #   # The passed function ought to have arity 1. For maps, this therefore means converting 
-  #   # the two arguments from :maps.map to a {k, v} tuple.
-  #   :maps.map(fn k, v -> function.({k, v}) end, map)
-  # end
 end

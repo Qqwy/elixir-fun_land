@@ -8,7 +8,7 @@ defmodule FunLand.Reducable do
 
   However, what is _not_ possible, is to stop halfway through the reduction.
   Therefore, Reducable is a lot simpler than the Enumerable protocol.
-  
+
   For convenience, though, a very basic implementation of the Enumerable protocol is
   automatically added when you `use Reducable`. This implementation first converts your Reducable
   to a list, and then enumerates on that.
@@ -16,7 +16,7 @@ defmodule FunLand.Reducable do
   This is very convenient, but it _does_ mean that your *whole* reducable is first converted to a list.
   This will therefore always be slower than a full-blown custom implementation that is specific for your structure.
 
-  If you want to implement your own version of Enumerable, add Reducable with `use Reducable, auto_enumerable: false`.
+  If you want to implement your own version of Enumerable, add Reducable with `use FunLand.Reducable, auto_enumerable: false`.
 
 
   """
@@ -27,11 +27,8 @@ defmodule FunLand.Reducable do
 
   defmacro __using__(opts) do
 
-
-    enum_protocol_implementation = 
-      if opts[:auto_enumerable] == false do
-        quote do end
-      else
+    enum_protocol_implementation =
+      if Keyword.get(:auto_enumerable, false) do
         quote do
           defimpl Enumerable do
 
@@ -44,16 +41,16 @@ defmodule FunLand.Reducable do
               |> Enumerable.List.reduce(acc, fun)
             end
           end
-        end        
+        end
+      else
+        quote do end
       end
-
-
 
     quote do
       @behaviour FunLand.Reducable
 
       @doc """
-      Converts the reducable into a list, 
+      Converts the reducable into a list,
       by building up a list from all elements, and in the end reversing it.
 
 
