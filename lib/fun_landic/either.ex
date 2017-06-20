@@ -39,7 +39,6 @@ defmodule FunLandic.Either do
   def right?(%Either{right?: false}), do: false
   def right?(%Either{right?: true}),  do: true
 
-
   @doc """
   Converts the %Either{} in the `{:ok, value} | {:error, reason}`-format.
   """
@@ -54,8 +53,8 @@ defmodule FunLandic.Either do
   Turns the common `{:ok, value} | {:error, reason}`-format into an %Either{}.
   """
   def from_success_tuple({:ok, val}), do: right(val)
-  def from_success_tuple(:error), do: left(val)
-  def from_success_tuple({:error, _}), do: left(val)
+  def from_success_tuple(:error), do: left(nil)
+  def from_success_tuple({:error, val}), do: left(val)
 
 
   def run_either(either, function_if_left, function_if_right)
