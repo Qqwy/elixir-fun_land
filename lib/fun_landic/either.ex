@@ -12,8 +12,8 @@ defmodule FunLandic.Either do
   """
 
   use FunLand
-  use Monad
-  use Reducable
+  use FunLand.Monad
+  use FunLand.Reducable
 
   defstruct [:val, right?: true]
   alias __MODULE__
@@ -38,6 +38,24 @@ defmodule FunLandic.Either do
   def right?(either)
   def right?(%Either{right?: false}), do: false
   def right?(%Either{right?: true}),  do: true
+
+
+  @doc """
+  Converts the %Either{} in the `{:ok, value} | {:error, reason}`-format.
+  """
+  def to_success_tuple(%Either{right?: false, val: val}) do
+    {:error, val}
+  end
+  def to_success_tuple(%Either{right?: true, val: val}) do
+    {:ok, val}
+  end
+
+  @doc """
+  Turns the common `{:ok, value} | {:error, reason}`-format into an %Either{}.
+  """
+  def from_success_tuple({:ok, val}), do: right(val)
+  def from_success_tuple(:error), do: left(val)
+  def from_success_tuple({:error, _}), do: left(val)
 
 
   def run_either(either, function_if_left, function_if_right)
