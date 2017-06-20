@@ -109,6 +109,14 @@ defmodule FunLand.Monad do
       iex>   new(x * y)
       iex> end
       {:ok, 200}
+
+      iex> require FunLand.Monad
+      iex> FunLand.Monad.monadic({:ok, nil}) do
+      iex>   x <- {:ok, 10}
+      iex>   y <- {:error, :something_went_wrong}
+      iex>   new(x * y)
+      iex> end
+      {:error, :something_went_wrong}
   """
 
   # TODO: Handle builtin module names and standard types.
