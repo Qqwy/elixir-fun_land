@@ -62,7 +62,6 @@ defmodule FunLand.Appliable do
     end
   end
 
-
   defdelegate map(a, fun), to: FunLand.Mappable
 
   @doc """
@@ -81,7 +80,6 @@ defmodule FunLand.Appliable do
   For `Maybe`, whenever one of the two arguments is `Nothing`, `Nothing` will be returned. If both are filled, then a result will be computed,
   and this result will be returned, wrapped in a new Maybe.
 
-
   """
   def apply_with(appliable_with_function_inside, appliable_b)
 
@@ -89,6 +87,7 @@ defmodule FunLand.Appliable do
     appliable_module.apply_with(a, b)
   end
 
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def apply_with(a, b) when unquote(guard)(a) and unquote(guard)(b) do
       apply(unquote(module), :apply_with, [a, b])

@@ -1,4 +1,6 @@
 defmodule FunLand.Helper do
+  use FunLand.Helper.GuardMacros
+
   @moduledoc """
   FunLand Helper functions for some common Algorithmic Data Type implementations.
   """
@@ -45,4 +47,5 @@ defmodule FunLand.Helper do
       unquote(module)
     end
   end
+
 end

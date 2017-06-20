@@ -4,8 +4,11 @@ defmodule FunLand.Builtin do
   # Helper functions to ease FunLand implementations
   # for builtin types.
 
+
   @doc false
-  @builtin_guards_list [is_tuple: FunLand.Builtin.Tuple,
+  @builtin_guards_list [
+   {:is_success_tuple,  FunLand.Builtin.SuccessTuple},
+   is_tuple: FunLand.Builtin.Tuple,
    is_atom: FunLand.Builtin.Atom,
    is_list: FunLand.Builtin.List,
    is_map: FunLand.Builtin.Map,

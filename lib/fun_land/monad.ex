@@ -104,14 +104,15 @@ defmodule FunLand.Monad do
 
 
   defmacro monadic(monad, do: block) do
+    monad_module = FunLand.Helper.map_datatype_to_module(monad)
       res =
         case block do
           nil ->
             raise ArgumentError, message: "missing or empty do block"
           {:__block__, meta, lines} ->
-            {:__block__, meta, [import_unless_monad_open(monad) | desugar_monadic_lines(monad, lines)]}
+            {:__block__, meta, [import_unless_monad_open(monad_module) | desugar_monadic_lines(monad_module, lines)]}
           line ->
-            {:__block__, [], [import_unless_monad_open(monad) | desugar_monadic_lines(monad, [line])]}
+            {:__block__, [], [import_unless_monad_open(monad_module) | desugar_monadic_lines(monad_module, [line])]}
         end
       res
   end

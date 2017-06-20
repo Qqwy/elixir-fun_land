@@ -30,7 +30,8 @@ defmodule FunLand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:currying, "~> 1.0"},
+      {:currying, "~> 1.0"}, # Used for partial application in multiple places.
+      {:numbers, "~> 4.0"},  # Used in `Sum` and `Product` ADTs.
 
       {:dialyxir, "~> 0.3", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev}
@@ -39,7 +40,7 @@ defmodule FunLand.Mixfile do
 
   defp description do
     """
-    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, such as Functors and Monads. 
+    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, such as Functors and Monads.
     """
   end
 

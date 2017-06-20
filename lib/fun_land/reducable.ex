@@ -84,6 +84,7 @@ defmodule FunLand.Reducable do
     module.reduce(reducable, acc, fun)
   end
 
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def reduce(reducable, acc, fun) when unquote(guard)(reducable) do
       apply(unquote(module),:reduce, [reducable, acc, fun])

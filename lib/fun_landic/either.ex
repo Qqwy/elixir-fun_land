@@ -56,7 +56,6 @@ defmodule FunLandic.Either do
   def from_success_tuple(:error), do: left(nil)
   def from_success_tuple({:error, val}), do: left(val)
 
-
   def run_either(either, function_if_left, function_if_right)
 
   def run_either(%Either{right?: false, val: val}, function_if_left, _), do: function_if_left.(val)

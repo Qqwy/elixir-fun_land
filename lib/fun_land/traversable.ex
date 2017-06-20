@@ -33,6 +33,7 @@ defmodule FunLand.Traversable do
   end
 
   # Builtin
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def traverse(traversable, result_module_or_datatype, fun) when unquote(guard)(traversable) do
       result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)

@@ -74,6 +74,7 @@ defmodule FunLand.Applicative do
   # When called with Struct
   def new(%module{}, a), do: module.new(a)
 
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     # When called with direct types like `{}` or `[]` or `"foo"`
     def new(applicative, a) when unquote(guard)(applicative) do

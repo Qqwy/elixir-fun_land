@@ -84,6 +84,7 @@ defmodule FunLand.Combinable do
   def neutral(%combinable_module{}), do: combinable_module.neutral
 
   # stdlib types
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def neutral(combinable) when unquote(guard)(combinable) do
       apply(unquote(module), :neutral, [])

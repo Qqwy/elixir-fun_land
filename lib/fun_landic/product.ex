@@ -15,7 +15,7 @@ defmodule FunLandic.Product do
   alias __MODULE__
 
   def neutral, do: 1
-  def combine(a, b), do: Kernel.*(a, b)
+  def combine(a, b), do: Numbers.mult(a, b)
 
   def map(%Product{val: val}, fun) do
     new(fun.(val))
@@ -25,25 +25,11 @@ defmodule FunLandic.Product do
     new(fun.(val))
   end
 
-  @doc """
-  The only things that make sense to put in a %Product{} are a number,
-  or a function that will eventually evaluate to a number.
-  """
-  def new(val) when is_number(val) or is_function(val) do
+  def new(val) do
     %Product{val: val}
   end
 
   def chain(%Product{val: val}, function) do
     function.(val)
   end
-
-
-  defp assert_value_is_number(value) do
-    if is_number(value) do
-      value
-    else
-      raise "non-numeric value passed to FunLandic.Product!"
-    end
-  end
-
 end

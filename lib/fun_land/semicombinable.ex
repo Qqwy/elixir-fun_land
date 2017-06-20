@@ -46,6 +46,7 @@ defmodule FunLand.Semicombinable do
   end
 
   # builtin data types
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def combine(combinable_a, combinable_b) when unquote(guard)(combinable_a) and unquote(guard)(combinable_b) do
       apply(unquote(module), :combine, [combinable_a, combinable_b])

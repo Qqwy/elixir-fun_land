@@ -50,6 +50,7 @@ defmodule FunLand.Chainable do
   end
 
   # Builtin datatypes
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def chain(chainable_a, chainable_b) when is_function(chainable_b, 1) and unquote(guard)(chainable_a) do
       apply(unquote(module), :chain, [chainable_a, chainable_b])

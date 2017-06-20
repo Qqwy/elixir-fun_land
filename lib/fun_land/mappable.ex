@@ -52,6 +52,7 @@ defmodule FunLand.Mappable do
     mappable_module.map(mappable, function)
   end
 
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def map(mappable, function) when is_function(function, 1) and unquote(guard)(mappable) do
       apply(unquote(module), :map, [mappable, function])

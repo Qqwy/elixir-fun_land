@@ -1,7 +1,7 @@
 defmodule FunLand.Builtin.Tuple do
 
   use FunLand
-  use Mappable
+  use FunLand.Mappable
 
   def map(tuple, function) do
     tuple
@@ -9,6 +9,4 @@ defmodule FunLand.Builtin.Tuple do
     |> fn list -> :lists.map(function, list) end.()
     |> List.to_tuple
   end
-
-
 end

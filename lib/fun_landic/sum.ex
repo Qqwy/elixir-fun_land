@@ -15,8 +15,7 @@ defmodule FunLandic.Sum do
   alias __MODULE__
 
   def neutral, do: new(0)
-  def combine(a = %Sum{val: vala}, b = %Sum{val: valb}), do: new(Kernel.+(vala, valb))
-
+  def combine(a = %Sum{val: vala}, b = %Sum{val: valb}), do: new(Numbers.add(vala, valb))
 
   def map(%Sum{val: val}, function) do
     new(function.(val))
@@ -26,26 +25,11 @@ defmodule FunLandic.Sum do
     new(fun.(val))
   end
 
-  @doc """
-  The only things that make sense to put in a %Sum{} are a number,
-  or a function that will eventually evaluate to a number.
-
-  Note that unfortunately, Elixir has no way to check the output of a function.
-  So we allow 'any' function to be wrapped (But when the function is evaluated, an error will be raised!).
-  """
-  def new(val) when is_number(val) or is_function(val, 1) do
+  def new(val) do
     %Sum{val: val}
   end
 
   def chain(%Sum{val: val}, function) do
     function.(val)
-  end
-
-  defp assert_value_is_number(value) do
-    if is_number(value) do
-      value
-    else
-      raise "non-numeric value passed to FunLandic.Sum!"
-    end
   end
 end
