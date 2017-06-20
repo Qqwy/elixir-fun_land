@@ -39,16 +39,19 @@ defmodule FunLandic.Maybe do
 
   use FunLand.Traversable
 
-  def traverse(%Maybe{nothing?: true}) do
-    # TODO
+  def traverse(%Maybe{nothing?: true}, result_module, _fun) do
+    result_module.new(nothing())
+  end
+  def traverse(%Maybe{val: val}, result_module, fun) do
+    result_module.map(fun.(val), &just/1)
   end
 
   def reduce(%Maybe{nothing?: true}, acc, _fun) do
     acc
   end
 
-  def reduce(%Maybe{val: x}, acc, fun) do
-    fun.(x, acc)
+  def reduce(%Maybe{val: val}, acc, fun) do
+    fun.(val, acc)
   end
 
 
