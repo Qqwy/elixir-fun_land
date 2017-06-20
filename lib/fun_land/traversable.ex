@@ -1,7 +1,9 @@
 defmodule FunLand.Traversable do
 
   @moduledoc """
-  TODO: Find out how to use this in a dynamically typed language.
+  WARNING: This module is not completely stable yet,
+  and should therefore
+  not be used in practice yet.
   """
 
   @type traversable(_) :: FunLand.adt
