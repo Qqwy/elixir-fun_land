@@ -48,11 +48,11 @@ defmodule FunLand.Reducable do
 
     quote do
       @behaviour FunLand.Reducable
+      unquote(enum_protocol_implementation)
 
       @doc """
       Converts the reducable into a list,
       by building up a list from all elements, and in the end reversing it.
-
 
       This is an automatic function implementation, made possible because #{inspect(__MODULE__)}
       implements the `FunLand.Reducable` behaviour.
@@ -64,22 +64,22 @@ defmodule FunLand.Reducable do
       end
 
       @doc """
-      A variant of reduce/3 that accepts anything that is Combinable
+      A variant of reduce that accepts anything that is Combinable
       as second argument. This Combinable will determine what the neutral value and the
       combining operation will be.
+
+      Pass in the combinable module name to start with `neutral` as accumulator,
+      or the combinable as struct to use that as starting accumulator.
       """
       def reduce(a, combinable) do
-        reduce(a, combinable.neutral, &combinable.combine/2)
+        reduce(a, FunLand.Combinable.neutral(combinable), &FunLand.Combinable.combine(combinable, &1))
       end
-
-
-      unquote(enum_protocol_implementation)
     end
   end
 
   def reduce(reducable, acc, fun)
 
-  # custom behaviour
+  # structs
   def reduce(reducable = %module{}, acc, fun) do
     module.reduce(reducable, acc, fun)
   end
@@ -90,12 +90,8 @@ defmodule FunLand.Reducable do
     end
   end
 
-  # lists
-  # defp do_reduce([], acc, _fun), do: acc
-  # defp do_reduce([h|t], acc, fun), do: do_reduce(t, fun.(h, acc), fun)
-
   # Using a Combinable
   def reduce(a, combinable) do
-    reduce(a, combinable.neutral, &combinable.combine/2)
+    reduce(a, FunLand.Combinable.neutral(combinable), &FunLand.Combinable.combine(combinable, &1))
   end
 end
