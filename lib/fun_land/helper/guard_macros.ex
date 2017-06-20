@@ -7,11 +7,9 @@ defmodule FunLand.Helper.GuardMacros do
       # `{:error, value}`
       # `:error`
       defmacro is_success_tuple(datatype) do
-        res = quote do
+        quote do
           unquote(datatype) == :error or is_tuple(unquote(datatype)) and tuple_size(unquote(datatype)) == 2 and elem(unquote(datatype), 0) in [:ok, :error]
         end
-        IO.puts(Macro.to_string(res))
-        res
       end
     end
   end
