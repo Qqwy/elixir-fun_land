@@ -38,10 +38,10 @@ defmodule FunLandic.Writer do
       end
 
       defoverridable [map: 2, apply_with: 2, chain: 2, tell: 1, write: 2]
-    
+
     end
   end
-  
+
   @doc """
   This should return the Module name of the Combinable
   that should be used as the logging part of this Writer monad.

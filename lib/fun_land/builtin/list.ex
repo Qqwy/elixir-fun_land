@@ -16,7 +16,7 @@ defmodule FunLand.Builtin.List do
     partial_results ++ apply_with(t, b)
   end
 
-  def wrap(elem), do: [elem]
+  def new(elem), do: [elem]
   def neutral, do: []
 
   def chain(list, fun) do
@@ -33,5 +33,4 @@ defmodule FunLand.Builtin.List do
 
   def reduce([], acc, _fun), do: acc
   def reduce([h|t], acc, fun), do: reduce(t, fun.(h, acc), fun)
-    
 end

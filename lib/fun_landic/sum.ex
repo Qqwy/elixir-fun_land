@@ -4,7 +4,7 @@ defmodule FunLandic.Sum do
   'I want to treat this number as something that, when combined with another number, should be summed, using `0` as neutral element'
 
   This is necessary as there are multiple ways to combine numbers. Another, very common way is `FunLandic.Product`.
- 
+
   You can use `Sum` either as a Combinable, by just passing in a Reducable with numbers,
 
   Or you can use `Sum` as Monad, by wrapping individual numbers and combining them using `map`, `apply_with`, `wrap` and `chain`.
@@ -14,16 +14,16 @@ defmodule FunLandic.Sum do
   defstruct [:val]
   alias __MODULE__
 
-  def neutral, do: wrap(0)
-  def combine(a = %Sum{val: vala}, b = %Sum{val: valb}), do: wrap(Kernel.+(vala, valb))
+  def neutral, do: new(0)
+  def combine(a = %Sum{val: vala}, b = %Sum{val: valb}), do: new(Kernel.+(vala, valb))
 
 
   def map(%Sum{val: val}, function) do
-    %Sum{val: function.(val) |> assert_value_is_number}
+    new(function.(val))
   end
 
   def apply_with(%Sum{val: fun}, %Sum{val: val}) do
-    %Sum{val: fun.(val) |> assert_value_is_number}
+    new(fun.(val))
   end
 
   @doc """
@@ -31,9 +31,9 @@ defmodule FunLandic.Sum do
   or a function that will eventually evaluate to a number.
 
   Note that unfortunately, Elixir has no way to check the output of a function.
-  So we allow 'any' function to be wrapped.
+  So we allow 'any' function to be wrapped (But when the function is evaluated, an error will be raised!).
   """
-  def wrap(val) when is_number(val) or is_function(val, 1) do
+  def new(val) when is_number(val) or is_function(val, 1) do
     %Sum{val: val}
   end
 

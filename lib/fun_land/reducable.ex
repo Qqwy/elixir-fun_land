@@ -28,7 +28,7 @@ defmodule FunLand.Reducable do
   defmacro __using__(opts) do
 
     enum_protocol_implementation =
-      if Keyword.get(:auto_enumerable, false) do
+      if Keyword.get(opts, :auto_enumerable, false) do
         quote do
           defimpl Enumerable do
 
@@ -54,7 +54,7 @@ defmodule FunLand.Reducable do
       by building up a list from all elements, and in the end reversing it.
 
 
-      This is an automatic function implementation, made possible because #{__MODULE__} 
+      This is an automatic function implementation, made possible because #{inspect(__MODULE__)}
       implements the `FunLand.Reducable` behaviour.
       """
       def to_list(reducable) do

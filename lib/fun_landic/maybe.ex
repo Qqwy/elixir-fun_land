@@ -27,7 +27,7 @@ defmodule FunLandic.Maybe do
   end
 
   # Applicable
-  def wrap(x), do: just(x)
+  def new(x), do: just(x)
 
   # Chainable
   def chain(%Maybe{nothing?: true}, _fun), do: nothing()
@@ -44,16 +44,16 @@ defmodule FunLandic.Maybe do
 
   use FunLand.Traversable
 
-  def traverse(%Maybe{nothing?: true}) do 
+  def traverse(%Maybe{nothing?: true}) do
     # TODO
   end
 
-  def reduce(%Maybe{nothing?: true}, acc, _fun) do 
+  def reduce(%Maybe{nothing?: true}, acc, _fun) do
     acc
   end
 
-  def reduce(%Maybe{val: x}, acc, fun) do 
-    fun.(x, acc) 
+  def reduce(%Maybe{val: x}, acc, fun) do
+    fun.(x, acc)
   end
 
 

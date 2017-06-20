@@ -23,20 +23,19 @@ defmodule FunLand do
   - `Applicative` -> A structure is Applicative if it is Appliable and you can create a new one by wrapping any value.
   - `Chainable` -> A structure is Chainable if it is Appliable and you can chain multiple operations after each other, resulting in just a single structure.
   - `Monad` -> A structure is a Monad if it is both Applicative and Chainable.
-  - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one. 
+  - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one.
   - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'neutral' element.
   - `CombinableMonad` -> A structure is a CombinableMonad if it is both Combinable and a Monad.
   - `Reducable` -> A structure is reducable if you can fold/reduce it to a single value, when giving a Combinable or function+default.
   - `Traversable` -> A structure is Traversable if it is Reducable and there is a way to flip the ???
 
-  It will also import the following operators:
+  When given the option `operators: true`, it will also import the following operators:
 
   - `~>` Shorthand for `Mappable.map/2`
-  - `<~>` Shorthand for `Appliable.apply_with/2` 
+  - `<~>` Shorthand for `Appliable.apply_with/2`
   - `~>>` Shorthand for `Chainable.chain/2`
   - `<>` Shorthand for `Combinable.combine/2`. This operator still works the same for binaries, but will now also work for any other Chainable.
 
-  If you want, you can also call `use FunLand, operators: false` to not import these operators.
   """
 
   # Elixir doesn't let you _really_ define algebraic data types, so we're creating a 'one type fits all' type.
@@ -45,16 +44,15 @@ defmodule FunLand do
   defmacro __using__(opts) do
 
     # Only import operators if wanted.
-    import_code = 
-      if opts[:operators] == false do
+    import_code =
+      if Keyword.get(opts, :operators, false) do
         quote do
-          import Kernel
-          import FunLand, except: [<>: 2, ~>: 2, <~>: 2, ~>>: 2]
+          import Kernel, except: [<>: 2]
+          import FunLand, only: [<>: 2, ~>: 2, <~>: 2, ~>>: 2]
         end
       else
         quote do
-          import Kernel, except: [<>: 2]
-          import FunLand
+          import Kernel
         end
       end
 
@@ -73,7 +71,7 @@ defmodule FunLand do
 
         Reducable,
         Traversable,
-        
+
         CombinableMonad,
       }
     end
@@ -122,8 +120,6 @@ defmodule FunLand do
     end
   end
 
-
-
   defmodule Helper do
     @moduledoc """
     FunLand Helper functions for some common Algorithmic Data Type implementations.
@@ -131,32 +127,5 @@ defmodule FunLand do
     def id(x), do: x
     def const(x, _y), do: x
     def const_reverse(_x, y), do: y
-
   end
-
-  defmodule Builtin do
-    def __builtin__ do
-      [is_tuple: FunLand.Builtin.Tuple,
-       is_atom: FunLand.Builtin.Atom,
-       is_list: FunLand.Builtin.List,
-       is_map: FunLand.Builtin.Map,
-       is_bitstring: FunLand.Builtin.BitString,
-       is_integer: FunLand.Builtin.Integer,
-       is_float: FunLand.Builtin.Float,
-       is_function: FunLand.Builtin.Function,
-       is_pid: FunLand.Builtin.PID,
-       is_port: FunLand.Builtin.Port,
-       is_reference: FunLand.Builtin.Reference]
-    end
-
-    def __stdlib__ do
-      stdlib_modules = ~w{List Tuple Atom Map BitString Integer Float Function PID Port Reference}
-      for module <- stdlib_modules do
-        {:"Elixir.#{module}", :"Elixir.FunLand.Builtin.#{module}"}
-      end
-    end
-
-
-  end
-
 end

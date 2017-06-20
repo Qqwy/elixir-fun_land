@@ -11,16 +11,16 @@ defmodule FunLandic.Identity do
 
   # Mappable
   def map(%Identity{val: val}, fun) do
-    wrap(fun.(val))
+    new(fun.(val))
   end
 
   # Appliable
   def apply_with(%Identity{val: fun}, %Identity{val: val}) do
-    wrap(Currying.curry(fun, val))
+    new(Currying.curry(fun, val))
   end
 
   # Applicative
-  def wrap(val) do
+  def new(val) do
     %Identity{val: val}
   end
 

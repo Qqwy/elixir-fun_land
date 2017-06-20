@@ -65,7 +65,7 @@ defmodule FunLand.Applicative do
   # For standard-library modules like `List`, delegate to e.g. `FunLand.Builtin.List`
   for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
     def new(unquote(stdlib_module), a) do
-      unquote(module).new(a)
+      apply(unquote(module), :new, [a])
     end
   end
 
@@ -77,20 +77,20 @@ defmodule FunLand.Applicative do
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     # When called with direct types like `{}` or `[]` or `"foo"`
     def new(applicative, a) when unquote(guard)(applicative) do
-      unquote(module).new(a)
+      apply(unquote(module), :new, [a])
     end
   end
 
 
-  # Free function implementations: 
+  # Free function implementations:
 
   @doc """
   Calls `Applicative.apply/2`, but afterwards discards the value that was the result of the rightmost argument.
   (the one evaluated the last).
 
-  So in the end, the value that went in as left argument 
+  So in the end, the value that went in as left argument
   (The Algorithmic Data Type containing partially-applied functions) is returned.
-  
+
   In Haskell, this is known as `<*`
   """
   # TODO: Verify implementation.
@@ -102,9 +102,9 @@ defmodule FunLand.Applicative do
   Calls `Applicative.apply/2`, but afterwards discards the value that was the result of the leftmost argument.
   (the one evaluated the first).
 
-  So in the end, the value that went in as right argument 
+  So in the end, the value that went in as right argument
   (The Algorithmic Data Type containing values) is returned.
-  
+
   In Haskell, this is known as `*>`
   """
   # TODO: Verify implementation.

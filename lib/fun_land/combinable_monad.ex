@@ -14,8 +14,8 @@ defmodule FunLand.CombinableMonad do
       use FunLand.Monad
 
       def guard(predicate)
-      def guard(true), do: wrap({})
-      def guard(false), do: neutral
+      def guard(true), do: new({})
+      def guard(false), do: neutral()
     end
   end
 

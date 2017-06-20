@@ -34,10 +34,10 @@ defmodule FunLand.Combinable do
 
   @callback neutral() :: combinable(a) when a: any
 
-  def __using__(_opts) do
+  def __using__(opts) do
 
     collectable_implementation =
-      if Keyword.get(:auto_collectable, false) do
+      if Keyword.get(opts, :auto_collectable, false) do
         quote do
           defimpl Elixir.Collectable do
             def into(coll_a, {:cont, coll_b}) do

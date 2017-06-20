@@ -4,15 +4,15 @@ defmodule FunLandic.IOListWriter do
 
   # @moduledoc """
 
-  # ## Example: 
-  
+  # ## Example:
+
   #     require FunLandic.IOListWriter
   #     FunLandic.IOListWriter.monadic do
   #       let x = 20
   #       wrap(20)
   #       tell("test")
   #       y <- wrap(x*10)
-  #       write(x+y, "#{x} plus #{y}")   
+  #       write(x+y, "#{x} plus #{y}")
   #     end
 
   # """

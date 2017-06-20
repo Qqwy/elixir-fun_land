@@ -3,5 +3,5 @@ defmodule FunLand.Builtin.BitString do
 
   def neutral, do: ""
 
-  def combine(str_a, str_b), do: Kernel.<>(str_a, str_b) 
+  def combine(str_a, str_b), do: Kernel.<>(str_a, str_b)
 end

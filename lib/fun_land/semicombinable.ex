@@ -1,6 +1,6 @@
 defmodule FunLand.Semicombinable do
   @moduledoc """
-  An operation is Semiombinable if you can combine two values using it, 
+  An operation is Semiombinable if you can combine two values using it,
   but there is no clearly defined `neutral` thing which you can combine with an element to obtain itself.
 
   if there _is_ a clearly definable `neutral` element, use `FunLand.Combinable` instead.
@@ -22,6 +22,8 @@ defmodule FunLand.Semicombinable do
   - Algebraic Addition
   - Algebraic Multiplication
 
+  Many semicombinables are not only 'semi', but fully Combinable. (See the `Combinable` module)
+
   ## In Other Environments
 
   - In Category Theory, something that is Semicombinable is called a *Semigroup*.
@@ -32,13 +34,13 @@ defmodule FunLand.Semicombinable do
   @type combinable(_) :: FunLand.adt
   @callback combine(combinable(a), combinable(a)) :: combinable(a) when a: any
 
-  # # Lists
-  # def combine(a, b) when is_list(a) and is_list(b), do: Kernel.++(a, b)
+  def __using__(_opts) do
+    quote do
+      @behaviour FunLand.Combinable
+    end
+  end
 
-  # # Binaries
-  # def combine(a, b) when is_binary(a) and is_binary(b), do: Kernel.<>(a, b)
-
-  # Behaviour
+  # structs
   def combine(a = %combinable{}, b = %combinable{}) do
     combinable.combine(a, b)
   end
@@ -50,14 +52,4 @@ defmodule FunLand.Semicombinable do
     end
   end
 
-  # # Maps
-  # def combine(a = %{}, b = %{}) do
-  #   :maps.merge(a, b)
-  # end
-
-  def __using__(_opts) do
-    quote do
-      @behaviour FunLand.Combinable
-    end
-  end
 end
