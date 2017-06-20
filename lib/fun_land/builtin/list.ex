@@ -37,6 +37,17 @@ defmodule FunLand.Builtin.List do
 
   use FunLand.Traversable
 
+  @doc """
+
+  An Example of using traverse:
+
+      iex> FunLand.Traversable.traverse([1, 2, 3], FunLandic.Maybe, fn x -> FunLandic.Maybe.just(x) end)
+      FunLandic.Maybe.just([1, 2, 3])
+      iex> FunLand.Traversable.traverse([1, 2, 3], [], fn x -> [x,x] end)
+      [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3],
+      [1, 2, 3]]
+
+  """
   def traverse(list, result_module, fun) do
     cons_fun = fn elem, acc ->
       result_module.map(fun.(elem), Currying.curry(&cons/2))

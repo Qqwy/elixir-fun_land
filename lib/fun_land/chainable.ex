@@ -55,5 +55,4 @@ defmodule FunLand.Chainable do
       apply(unquote(module), :chain, [chainable_a, chainable_b])
     end
   end
-
 end

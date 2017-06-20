@@ -27,13 +27,15 @@ defmodule FunLand.Traversable do
   Thus: `result_module` should be the same name as the name of thing you return from `fun`.
   """
   # Structs
-  def traverse(traversable = %module{}, result_module, fun) do
+  def traverse(traversable = %module{}, result_module_or_datatype, fun) do
+    result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)
     module.traverse(traversable, result_module, fun)
   end
 
   # Builtin
   for {guard, module} <- FunLand.Builtin.__builtin__ do
-    def traverse(traversable, result_module, fun) when unquote(guard)(traversable) do
+    def traverse(traversable, result_module_or_datatype, fun) when unquote(guard)(traversable) do
+      result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)
       apply(unquote(module),:traverse, [traversable, result_module, fun])
     end
   end
