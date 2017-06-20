@@ -94,8 +94,6 @@ defmodule FunLand.Reducable do
   # defp do_reduce([], acc, _fun), do: acc
   # defp do_reduce([h|t], acc, fun), do: do_reduce(t, fun.(h, acc), fun)
 
-
-
   # Using a Combinable
   def reduce(a, combinable) do
     reduce(a, combinable.neutral, &combinable.combine/2)

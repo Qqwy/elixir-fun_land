@@ -77,6 +77,15 @@ defmodule FunLand do
     end
   end
 
+  defdelegate map(mappable, fun), to: FunLand.Mappable
+  defdelegate apply_with(appliable_with_fun, appliable), to: FunLand.Appliable
+  defdelegate new(module, value), to: FunLand.Applicative
+  defdelegate chain(chainable, fun_returning_chainable), to: FunLand.Chainable
+  defdelegate neutral(module), to: FunLand.Combinable
+  defdelegate combine(semicombinable, semicombinable), to: FunLand.Semicombinable
+  defdelegate reduce(reducable, accumulator, fun), to: FunLand.Reducable
+  defdelegate reduce(reducable, combinable), to: FunLand.Reducable
+
   @doc """
   Infix version of `FunLand.Mappable.map/2`
   """
@@ -118,14 +127,5 @@ defmodule FunLand do
         Kernel.<>(unquote(left), unquote(right))
       end
     end
-  end
-
-  defmodule Helper do
-    @moduledoc """
-    FunLand Helper functions for some common Algorithmic Data Type implementations.
-    """
-    def id(x), do: x
-    def const(x, _y), do: x
-    def const_reverse(_x, y), do: y
   end
 end

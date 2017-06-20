@@ -9,7 +9,7 @@ defmodule FunLand.CombinableMonad do
   """
 
   defmacro __using__(_opts) do
-    quote location: :keep do 
+    quote location: :keep do
       use FunLand.Combinable
       use FunLand.Monad
 
@@ -28,5 +28,4 @@ defmodule FunLand.CombinableMonad do
   defdelegate apply_with(a, b), to: FunLand.Appliable
   defdelegate new(module, a), to: FunLand.Applicative
   defdelegate chain(a, fun), to: FunLand.Chainable
-
 end
