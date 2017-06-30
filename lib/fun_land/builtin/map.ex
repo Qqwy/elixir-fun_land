@@ -30,7 +30,7 @@ defmodule FunLand.Builtin.Map do
     :maps.merge(map_a, map_b)
   end
 
-  def neural do
+  def empty do
     :maps.new
   end
 
