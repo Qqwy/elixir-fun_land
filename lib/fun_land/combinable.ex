@@ -67,6 +67,8 @@ defmodule FunLand.Combinable do
       @behaviour FunLand.Combinable
 
       unquote(collectable_implementation)
+
+      IO.puts("TEST")
     end
     IO.puts(Macro.to_string(res))
     res
