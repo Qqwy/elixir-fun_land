@@ -20,7 +20,7 @@ defmodule FunLand.Applicative do
 
   - `new`: We can take an apple, and put it in a bowl: we put the apple in a `new` bowl to return a `bowl with an apple`.
   - `apply`: If we have a bowl with a partially-made fruit-salad, and we have a bowl with an apple, we can take the apple and the partially-made fruit salad to create a bowl with a fruit-with-apples-salad.
-  - `map`: We can take a bowl with any fruit or salad, and do some arbitrary operation with it, such as 'blending'. In this example, we end up with the same bowl, but now filled with blended fruit-salad. 
+  - `map`: We can take a bowl with any fruit or salad, and do some arbitrary operation with it, such as 'blending'. In this example, we end up with the same bowl, but now filled with blended fruit-salad.
 
   ## In Other Environments
 

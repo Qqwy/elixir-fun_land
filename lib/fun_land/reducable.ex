@@ -65,14 +65,14 @@ defmodule FunLand.Reducable do
 
       @doc """
       A variant of reduce that accepts anything that is Combinable
-      as second argument. This Combinable will determine what the neutral value and the
+      as second argument. This Combinable will determine what the empty value and the
       combining operation will be.
 
-      Pass in the combinable module name to start with `neutral` as accumulator,
+      Pass in the combinable module name to start with `empty` as accumulator,
       or the combinable as struct to use that as starting accumulator.
       """
       def reduce(a, combinable) do
-        reduce(a, FunLand.Combinable.neutral(combinable), &FunLand.Combinable.combine(combinable, &1))
+        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(combinable, &1))
       end
     end
   end
@@ -93,6 +93,6 @@ defmodule FunLand.Reducable do
 
   # Using a Combinable
   def reduce(a, combinable) do
-    reduce(a, FunLand.Combinable.neutral(combinable), &FunLand.Combinable.combine(combinable, &1))
+    reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(combinable, &1))
   end
 end
