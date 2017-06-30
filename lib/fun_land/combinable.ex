@@ -63,7 +63,7 @@ defmodule FunLand.Combinable do
     end
 
     res = quote do
-      @behaviour FunLand.SemiCombinable
+      @behaviour FunLand.Semicombinable
       @behaviour FunLand.Combinable
 
       unquote(collectable_implementation)
