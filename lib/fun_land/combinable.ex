@@ -61,14 +61,15 @@ defmodule FunLand.Combinable do
     if unused_opts != [] do
       IO.puts "Warning: `use FunLand.Combinable` does not understand options: #{inspect(unused_opts)}"
     end
-    IO.inspect(Macro.to_string(collectable_implementation))
 
-    quote do
+    res = quote do
       @behaviour FunLand.SemiCombinable
       @behaviour FunLand.Combinable
 
       unquote(collectable_implementation)
     end
+    IO.puts(Macro.to_string(res))
+    res
   end
 
   defdelegate combine(a, b), to: FunLand.Semicombinable
