@@ -60,7 +60,7 @@ defmodule FunLand.Combinable do
 
     unused_opts = Keyword.delete(opts, :auto_collectable)
     if unused_opts != [] do
-      IO.puts "Warning: `use FunLand.Combinable` does not understand options: res"
+      IO.puts "Warning: `use FunLand.Combinable` does not understand options: #{inspect(unused_opts)}"
     end
 
     quote do
