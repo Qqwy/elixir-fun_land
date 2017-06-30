@@ -5,5 +5,5 @@ defmodule FunLand.Builtin.Float do
   As far as currently known, there is no way to implement one or multiple of the Algebraic Data Type behaviours for a Float.
 
   Therefore, this module is empty.
-  """  
+  """
 end

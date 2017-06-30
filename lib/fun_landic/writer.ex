@@ -10,7 +10,7 @@ defmodule FunLandic.Writer do
       def map(%__MODULE__{val: val, log: log}, fun), do: %__MODULE__{val: fun.(val), log: log}
 
       def wrap(val) do
-        %__MODULE__{val: val, log: log_combinable_module().neutral}
+        %__MODULE__{val: val, log: log_combinable_module().empty}
       end
 
       # TODO: Verify implementation
@@ -38,15 +38,15 @@ defmodule FunLandic.Writer do
       end
 
       defoverridable [map: 2, apply_with: 2, chain: 2, tell: 1, write: 2]
-    
+
     end
   end
-  
+
   @doc """
   This should return the Module name of the Combinable
   that should be used as the logging part of this Writer monad.
 
-  This module's `neutral` value is used when a new instance of this Writer monad is made using `wrap/0`,
+  This module's `empty` value is used when a new instance of this Writer monad is made using `wrap/0`,
   and `combine` is used whenever the Writer's `apply_with/2` or `chain/2`
   """
   @callback log_combinable_module() :: module

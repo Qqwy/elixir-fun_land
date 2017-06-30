@@ -1,18 +1,19 @@
 defmodule FunLand.Appliable do
   @doc """
-  Something is Appliable if you can _apply_ one of it (containing one or multiple functions) _with_ another. 
-  
-  Appliable is mostly born out of the needs to apply a function that is already wrapped in a Mappable: 
-  
+  Something is Appliable if you can _apply_ one of it (containing one or multiple functions) _with_ another.
+
+  Appliable is mostly born out of the needs to apply a function that is already wrapped in a Mappable:
+
   - If you had a bare function, you could use `Mappable.map/2` to apply it over a Mappable.
   - If however, you have a function already inside a Mappable, a new operation has to be defined to apply it over a Mappable (of the same kind).
 
   This operation is called `apply_with/2`.
 
+  'a function inside a Mappable' is something that happens when you partially apply functions, which isn't that common in Elixir because functions are not automatically curried.
 
-  ### Curring
-  
-  As `apply_with` works only applies a single argument per function at a time, it works the best when used with curried functions. 
+  ### Currying and Partial Application
+
+  As `apply_with` works only applies a single argument per function at a time, it works the best when used with curried functions.
   In Elixir, functions are no curried by default.
   Fortunately, there exists the [Currying](https://hex.pm/packages/currying) library, which transforms your normal functions into curried functions.
 
@@ -40,17 +41,14 @@ defmodule FunLand.Appliable do
   For the fruit salad bowl, we could define it as 'take some fruit-salad from Bowl A, combine it with a banana in Bowl B. -> repeat until bananas and fruit-salad are fully combined'.
 
 
-  This is called `apply_with`. 
+  This is called `apply_with`.
   Note that, because the part that changes more often is the Appliable with the (partially-applied) function (in other words: The bowl with the partially-made fruit salad),
   the parameters of this functions are the reverse of `Mappable.map`.
 
-
-
   ## In Other Environments
 
-  - In Haskell, `Appliable.apply_with` is known by the uninformative name `ap`, often written as `<$>`. 
+  - In Haskell, `Appliable.apply_with` is known by the uninformative name `ap`, often written as `<$>`.
   - In Category Theory, something that is Appliable is called an *Apply*.
-
 
   """
   @type appliable(_) :: FunLand.adt
@@ -64,19 +62,24 @@ defmodule FunLand.Appliable do
     end
   end
 
-
   defdelegate map(a, fun), to: FunLand.Mappable
 
   @doc """
   Applies `appliable_with_function_inside`, which should only contain functions, with as arguments
-  the elements inside `appliable_b`. 
+  the elements inside `appliable_b`.
 
   For a List, this means that the list(s) that are made by mapping each of the functions inside
   `appliable_with_function_inside` over the elements of `appliable_b` are concatenated, so a single list of all
   results is returned.
 
+      iex> [&(&1 + 1), &(&1 - 1)] |> FunLand.Appliable.apply_with([1, 2])
+      [2, 3, 0, 1]
+      iex> [Currying.curry(&+/2), Currying.curry(&-/2)] |> FunLand.Appliable.apply_with([10, 20]) |> FunLand.Appliable.apply_with([3,4])
+      [13, 14, 23, 24, 7, 6, 17, 16]
+
   For `Maybe`, whenever one of the two arguments is `Nothing`, `Nothing` will be returned. If both are filled, then a result will be computed,
-  and this result will be returned, wrapped in a new Maybe. 
+  and this result will be returned, wrapped in a new Maybe.
+
   """
   def apply_with(appliable_with_function_inside, appliable_b)
 
@@ -84,6 +87,7 @@ defmodule FunLand.Appliable do
     appliable_module.apply_with(a, b)
   end
 
+  use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def apply_with(a, b) when unquote(guard)(a) and unquote(guard)(b) do
       apply(unquote(module), :apply_with, [a, b])

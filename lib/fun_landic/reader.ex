@@ -14,7 +14,7 @@ defmodule FunLandic.Reader do
 
   def apply_with(reader = %Reader{fun: fun}, val), do: %Reader{fun: curry(fun, val)}
 
-  def wrap(x), do: %Reader{fun: curry(fn _ -> x end)}
+  def new(x), do: %Reader{fun: curry(fn _ -> x end)}
 
   def chain(reader = %Reader{fun: reader_fun}, fun) do
     %Reader{fun: fn e -> fun.(run(reader, e)) end}

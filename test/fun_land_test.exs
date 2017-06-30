@@ -4,10 +4,6 @@ defmodule FunLandTest do
 
   doctest FunLand
 
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
-
   defmodule MappableStructTest do
     use FunLand.Mappable
 
@@ -18,7 +14,6 @@ defmodule FunLandTest do
     end
   end
   alias FunLandTest.MappableStructTest
-  
 
   test "mappable using a custom struct" do
     assert %MappableStructTest{ val: 3} |> FunLand.Mappable.map(fn x -> x*x end) == %MappableStructTest{val: 9}

@@ -3,10 +3,10 @@ defmodule FunLand.Mixfile do
 
   def project do
     [app: :fun_land,
-     version: "0.7.4",
+     version: "0.8.0",
      elixir: "~> 1.3",
-     description: description,
-     package: package,
+     description: description(),
+     package: package(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -30,16 +30,17 @@ defmodule FunLand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:currying, "~> 1.0"},
+      {:currying, "~> 1.0"}, # Used for partial application in multiple places.
+      {:numbers, "~> 4.0"},  # Used in `Sum` and `Product` ADTs.
 
       {:dialyxir, "~> 0.3", only: :dev},
-      {:ex_doc, ">= 0.0.0", only: :dev} 
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
   defp description do
     """
-    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, such as Functors and Monads. 
+    FunLand adds Behaviours to define Algebraic Data Types ('Container' data types) to Elixir, such as Functors and Monads.
     """
   end
 

@@ -1,14 +1,15 @@
 defmodule FunLand do
   @moduledoc """
   FunLand defines many different Algebraic Data Types.
-  
+
   An Algebraic Data Type is nothing more, than a 'container' for some other data type.
+  Exactly how that 'container' behaves is what makes one ADT different from another.
 
   Lists are ADTs. And so are Maps. And Sets. And Tuples. And many other things.
 
-  Algebraic Data Types have no intrinsic value of their own. They get value, once you fill them with something, 
-  and have operations you can perform on their contents.
-  
+  Algebraic Data Types contain no value of their own. They get a value, once you fill them with something,
+  and then have useful operations you can perform on their contents.
+
   There are many similarities in the way the different ADTs work. This allows us to define behaviours which
   generalize to all ADTs. Any of your custom data types that you can implement one or multiple of these behaviours for,
   is an ADT, and will receive the benefits that the implemented ADTs give.
@@ -23,20 +24,19 @@ defmodule FunLand do
   - `Applicative` -> A structure is Applicative if it is Appliable and you can create a new one by wrapping any value.
   - `Chainable` -> A structure is Chainable if it is Appliable and you can chain multiple operations after each other, resulting in just a single structure.
   - `Monad` -> A structure is a Monad if it is both Applicative and Chainable.
-  - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one. 
-  - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'neutral' element.
+  - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one.
+  - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'empty' element.
   - `CombinableMonad` -> A structure is a CombinableMonad if it is both Combinable and a Monad.
   - `Reducable` -> A structure is reducable if you can fold/reduce it to a single value, when giving a Combinable or function+default.
   - `Traversable` -> A structure is Traversable if it is Reducable and there is a way to flip the ???
 
-  It will also import the following operators:
+  When given the option `operators: true`, it will also import the following operators:
 
   - `~>` Shorthand for `Mappable.map/2`
-  - `<~>` Shorthand for `Appliable.apply_with/2` 
+  - `<~>` Shorthand for `Appliable.apply_with/2`
   - `~>>` Shorthand for `Chainable.chain/2`
   - `<>` Shorthand for `Combinable.combine/2`. This operator still works the same for binaries, but will now also work for any other Chainable.
 
-  If you want, you can also call `use FunLand, operators: false` to not import these operators.
   """
 
   # Elixir doesn't let you _really_ define algebraic data types, so we're creating a 'one type fits all' type.
@@ -45,16 +45,15 @@ defmodule FunLand do
   defmacro __using__(opts) do
 
     # Only import operators if wanted.
-    import_code = 
-      if opts[:operators] == false do
+    import_code =
+      if Keyword.get(opts, :operators, false) do
         quote do
-          import Kernel
-          import FunLand, except: [<>: 2, ~>: 2, <~>: 2, ~>>: 2]
+          import Kernel, except: [<>: 2]
+          import FunLand, only: [<>: 2, ~>: 2, <~>: 2, ~>>: 2]
         end
       else
         quote do
-          import Kernel, except: [<>: 2]
-          import FunLand
+          import Kernel
         end
       end
 
@@ -73,10 +72,27 @@ defmodule FunLand do
 
         Reducable,
         Traversable,
-        
+
         CombinableMonad,
       }
     end
+  end
+
+  defdelegate map(mappable, fun), to: FunLand.Mappable
+  defdelegate apply_with(appliable_with_fun, appliable), to: FunLand.Appliable
+  defdelegate new(module, value), to: FunLand.Applicative
+  defdelegate chain(chainable, fun_returning_chainable), to: FunLand.Chainable
+  defdelegate empty(module), to: FunLand.Combinable
+  defdelegate combine(semicombinable, semicombinable), to: FunLand.Semicombinable
+  defdelegate reduce(reducable, accumulator, fun), to: FunLand.Reducable
+  defdelegate reduce(reducable, combinable), to: FunLand.Reducable
+
+  def any?(reducable, property_fun) do
+    FunLand.Reducable.reduce(reducable, false, fn elem, acc -> acc || property_fun.(elem) end)
+  end
+
+  def all?(reducable, property_fun) do
+    FunLand.Reducable.reduce(reducable, true, fn elem, acc -> acc && property_fun.(elem) end)
   end
 
   @doc """
@@ -106,7 +122,7 @@ defmodule FunLand do
 
   Note that binary strings are Combinable, so "foo" <> "bar" still works.
 
-  `<>/2` can still be used in pattern-matches and guard clauses, but it will fall back to the 
+  `<>/2` can still be used in pattern-matches and guard clauses, but it will fall back to the
   behavior of `Kernel.<>/2`, which means that it will only work with binary strings.
   """
   defmacro left <> right do
@@ -121,42 +137,4 @@ defmodule FunLand do
       end
     end
   end
-
-
-
-  defmodule Helper do
-    @moduledoc """
-    FunLand Helper functions for some common Algorithmic Data Type implementations.
-    """
-    def id(x), do: x
-    def const(x, _y), do: x
-    def const_reverse(_x, y), do: y
-
-  end
-
-  defmodule Builtin do
-    def __builtin__ do
-      [is_tuple: FunLand.Builtin.Tuple,
-       is_atom: FunLand.Builtin.Atom,
-       is_list: FunLand.Builtin.List,
-       is_map: FunLand.Builtin.Map,
-       is_bitstring: FunLand.Builtin.BitString,
-       is_integer: FunLand.Builtin.Integer,
-       is_float: FunLand.Builtin.Float,
-       is_function: FunLand.Builtin.Function,
-       is_pid: FunLand.Builtin.PID,
-       is_port: FunLand.Builtin.Port,
-       is_reference: FunLand.Builtin.Reference]
-    end
-
-    def __stdlib__ do
-      stdlib_modules = ~w{List Tuple Atom Map BitString Integer Float Function PID Port Reference}
-      for module <- stdlib_modules do
-        {:"Elixir.#{module}", :"Elixir.FunLand.Builtin.#{module}"}
-      end
-    end
-
-
-  end
-
 end

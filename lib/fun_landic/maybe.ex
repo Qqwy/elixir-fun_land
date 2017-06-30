@@ -4,18 +4,29 @@ defmodule FunLandic.Maybe do
   alias __MODULE__
 
   defimpl Inspect do
-    def inspect(%Maybe{nothing?: true}, _opts), do: "Maybe.nothing"
-    def inspect(%Maybe{val: x}, _opts), do: "Maybe.just(#{inspect x})"
+    def inspect(%Maybe{nothing?: true}, _opts), do: "FunLandic.Maybe.nothing()"
+    def inspect(%Maybe{val: x}, _opts), do: "FunLandic.Maybe.just(#{inspect x})"
   end
 
   def nothing(), do: %Maybe{nothing?: true}
   def just(x), do: %Maybe{nothing?: false, val: x}
 
-  def from_just(%Maybe{nothing?: false, val: x}), do: x
-  def from_just(%Maybe{}), do: raise "Passed value was nothing!"
+  @doc """
+  Converts the %Maybe{} in the `{:ok, value} | :error`-format.
+  """
+  def to_success_tuple(%Maybe{nothing?: true}) do
+    :error
+  end
+  def to_success_tuple(%Maybe{val: val}) do
+    {:ok, val}
+  end
 
-
-  # Monad behaviour callbacks
+  @doc """
+  Turns the common `{:ok, value} | :error`-format into a %Maybe{}.
+  """
+  def from_success_tuple({:ok, val}), do: just(val)
+  def from_success_tuple(:error), do: nothing()
+  def from_success_tuple({:error, _}), do: nothing()
 
   use FunLand.CombinableMonad
 
@@ -27,7 +38,7 @@ defmodule FunLandic.Maybe do
   end
 
   # Applicable
-  def wrap(x), do: just(x)
+  def new(x), do: just(x)
 
   # Chainable
   def chain(%Maybe{nothing?: true}, _fun), do: nothing()
@@ -38,23 +49,23 @@ defmodule FunLandic.Maybe do
   def combine(first = %Maybe{}, _), do: first
 
   # Combinable
-  def neutral, do: nothing()
-
-
+  def empty, do: nothing()
 
   use FunLand.Traversable
 
-  def traverse(%Maybe{nothing?: true}) do 
-    # TODO
+  def traverse(%Maybe{nothing?: true}, result_module, _fun) do
+    result_module.new(nothing())
+  end
+  def traverse(%Maybe{val: val}, result_module, fun) do
+    result_module.map(fun.(val), &just/1)
   end
 
-  def reduce(%Maybe{nothing?: true}, acc, _fun) do 
+  # Foldable
+  def reduce(%Maybe{nothing?: true}, acc, _fun) do
     acc
   end
 
-  def reduce(%Maybe{val: x}, acc, fun) do 
-    fun.(x, acc) 
+  def reduce(%Maybe{val: val}, acc, fun) do
+    fun.(val, acc)
   end
-
-
 end
