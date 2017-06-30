@@ -46,6 +46,11 @@ defmodule FunLand.Reducable do
         quote do end
       end
 
+    unused_opts = Keyword.delete(opts, :auto_collectable)
+    if unused_opts != [] do
+      IO.puts "Warning: `use FunLand.Combinable` does not understand options: res"
+    end
+
     quote do
       @behaviour FunLand.Reducable
       unquote(enum_protocol_implementation)

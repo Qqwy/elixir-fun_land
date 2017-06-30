@@ -58,6 +58,11 @@ defmodule FunLand.Combinable do
         quote do end
       end
 
+    unused_opts = Keyword.delete(opts, :auto_collectable)
+    if unused_opts != [] do
+      IO.puts "Warning: `use FunLand.Combinable` does not understand options: res"
+    end
+
     quote do
       @behaviour FunLand.SemiCombinable
       @behaviour FunLand.Combinable
