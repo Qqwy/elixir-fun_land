@@ -17,7 +17,7 @@ defmodule FunLand.Builtin.List do
   end
 
   def new(elem), do: [elem]
-  def neutral, do: []
+  def empty, do: []
 
   def chain(list, fun) do
     for elem <- list, result <- fun.(elem) do

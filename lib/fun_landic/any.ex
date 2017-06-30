@@ -7,6 +7,6 @@ defmodule FunLandic.Any do
 
   use FunLand.Combinable
 
-  def neutral, do: false
+  def empty, do: false
   def combine(a, b), do: a || b
 end

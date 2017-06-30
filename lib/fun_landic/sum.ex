@@ -1,7 +1,7 @@
 defmodule FunLandic.Sum do
   @moduledoc """
   `Sum` wraps numbers. Each `Sum` struct is a wrapper around a single number, and basically says:
-  'I want to treat this number as something that, when combined with another number, should be summed, using `0` as neutral element'
+  'I want to treat this number as something that, when combined with another number, should be summed, using `0` as empty element'
 
   This is necessary as there are multiple ways to combine numbers. Another, very common way is `FunLandic.Product`.
 
@@ -14,7 +14,7 @@ defmodule FunLandic.Sum do
   defstruct [:val]
   alias __MODULE__
 
-  def neutral, do: new(0)
+  def empty, do: new(0)
   def combine(a = %Sum{val: vala}, b = %Sum{val: valb}), do: new(Numbers.add(vala, valb))
 
   def map(%Sum{val: val}, function) do

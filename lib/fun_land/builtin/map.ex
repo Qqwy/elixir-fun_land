@@ -17,7 +17,7 @@ defmodule FunLand.Builtin.Map do
   --------------------
 
   Maps _are_ SemiCombinable, as we can take two key-value groups, and combine them (with duplicates being overridden by the values in the latter).
-  Maps are also Combinable, as it is also possible to create a `neutral` element: an empty map.
+  Maps are also Combinable, as it is also possible to create a `empty` element: an empty map.
   """
 
   def map(map, function) do

@@ -49,7 +49,7 @@ defmodule FunLandic.Maybe do
   def combine(first = %Maybe{}, _), do: first
 
   # Combinable
-  def neutral, do: nothing()
+  def empty, do: nothing()
 
   use FunLand.Traversable
 

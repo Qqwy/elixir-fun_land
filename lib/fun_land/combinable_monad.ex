@@ -15,13 +15,13 @@ defmodule FunLand.CombinableMonad do
 
       def guard(predicate)
       def guard(true), do: new({})
-      def guard(false), do: neutral()
+      def guard(false), do: empty()
     end
   end
 
   # Combinable
   defdelegate combine(a, b), to: FunLand.Semicombinable
-  defdelegate neutral(module), to: FunLand.Combinable
+  defdelegate empty(module), to: FunLand.Combinable
 
   # Monad
   defdelegate map(a, fun), to: FunLand.Mappable

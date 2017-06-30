@@ -1,7 +1,7 @@
 defmodule FunLandic.Product do
   @moduledoc """
   `Product` wraps numbers. Each `Product` struct is a wrapper around a single number, and basically says:
-  'I want to treat this number as something that, when combined with another number, should be multiplied, using `1` as neutral element'
+  'I want to treat this number as something that, when combined with another number, should be multiplied, using `1` as empty element'
 
   This is necessary as there are multiple ways to combine numbers. Another, very common way is `FunLandic.Sum`.
 
@@ -14,7 +14,7 @@ defmodule FunLandic.Product do
   defstruct [:val]
   alias __MODULE__
 
-  def neutral, do: 1
+  def empty, do: 1
   def combine(a, b), do: Numbers.mult(a, b)
 
   def map(%Product{val: val}, fun) do

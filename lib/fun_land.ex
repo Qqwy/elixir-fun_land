@@ -25,7 +25,7 @@ defmodule FunLand do
   - `Chainable` -> A structure is Chainable if it is Appliable and you can chain multiple operations after each other, resulting in just a single structure.
   - `Monad` -> A structure is a Monad if it is both Applicative and Chainable.
   - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one.
-  - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'neutral' element.
+  - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'empty' element.
   - `CombinableMonad` -> A structure is a CombinableMonad if it is both Combinable and a Monad.
   - `Reducable` -> A structure is reducable if you can fold/reduce it to a single value, when giving a Combinable or function+default.
   - `Traversable` -> A structure is Traversable if it is Reducable and there is a way to flip the ???
@@ -82,7 +82,7 @@ defmodule FunLand do
   defdelegate apply_with(appliable_with_fun, appliable), to: FunLand.Appliable
   defdelegate new(module, value), to: FunLand.Applicative
   defdelegate chain(chainable, fun_returning_chainable), to: FunLand.Chainable
-  defdelegate neutral(module), to: FunLand.Combinable
+  defdelegate empty(module), to: FunLand.Combinable
   defdelegate combine(semicombinable, semicombinable), to: FunLand.Semicombinable
   defdelegate reduce(reducable, accumulator, fun), to: FunLand.Reducable
   defdelegate reduce(reducable, combinable), to: FunLand.Reducable

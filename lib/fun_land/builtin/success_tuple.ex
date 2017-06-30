@@ -49,7 +49,7 @@ defmodule FunLand.Builtin.SuccessTuple do
   def reduce(_error_tuple, acc, _fun), do: acc
   
   # Combinable
-  def neutral, do: :error
+  def empty, do: :error
 
   @doc """
   Combinable only works if the type inside the success tuples
