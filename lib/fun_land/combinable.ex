@@ -34,7 +34,7 @@ defmodule FunLand.Combinable do
 
   @callback empty() :: combinable(a) when a: any
 
-  def __using__(opts) do
+  defmacro __using__(opts) do
 
     collectable_implementation =
       if Keyword.get(opts, :auto_collectable, false) do
@@ -67,8 +67,6 @@ defmodule FunLand.Combinable do
       @behaviour FunLand.Combinable
 
       unquote(collectable_implementation)
-
-      IO.puts("TEST")
     end
     IO.puts(Macro.to_string(res))
     res
