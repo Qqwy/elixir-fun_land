@@ -39,11 +39,10 @@ defmodule FunLand.Combinable do
     collectable_implementation =
       if Keyword.get(opts, :auto_collectable, false) do
         quote do
-          defimpl Elixir.Collectable do
+          defimpl Collectable do
             def into(coll_a, {:cont, coll_b}) do
-              FunLand.Collectable.combine(coll_a, coll_b)
+              FunLand.Combinable.combine(coll_a, coll_b)
             end
-
             def into(original) do
               result = fn
                 coll_a, {:cont, coll_b} -> FunLand.Combinable.combine(coll_a, coll_b)
@@ -62,6 +61,7 @@ defmodule FunLand.Combinable do
     if unused_opts != [] do
       IO.puts "Warning: `use FunLand.Combinable` does not understand options: #{inspect(unused_opts)}"
     end
+    IO.inspect(Macro.to_string(collectable_implementation))
 
     quote do
       @behaviour FunLand.SemiCombinable
