@@ -40,9 +40,9 @@ defmodule FunLand.Combinable do
       if Keyword.get(opts, :auto_collectable, false) do
         quote do
           defimpl Collectable do
-            def into(coll_a, {:cont, coll_b}) do
-              FunLand.Combinable.combine(coll_a, coll_b)
-            end
+            # def into(coll_a, {:cont, coll_b}) do
+            #   FunLand.Combinable.combine(coll_a, coll_b)
+            # end
             def into(original) do
               result = fn
                 coll_a, {:cont, coll_b} -> FunLand.Combinable.combine(coll_a, coll_b)
