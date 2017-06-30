@@ -46,7 +46,7 @@ defmodule FunLand.Reducable do
         quote do end
       end
 
-    unused_opts = Keyword.delete(opts, :auto_collectable)
+    unused_opts = Keyword.delete(opts, :auto_enumerable)
     if unused_opts != [] do
       IO.puts "Warning: `use FunLand.Reducable` does not understand options: #{inspect(unused_opts)}"
     end
