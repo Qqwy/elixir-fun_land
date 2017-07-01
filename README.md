@@ -18,8 +18,12 @@ As can be seen below in the roadmap, FunLand is not fully finished yet. New pre-
 Mostly lacking are:
 
 - Enough documentation.
-- Tests for most of the example implementations in `FunLandic` and `FunLand.Builtin.*`.
-- Splitting off `FunLandic` to its own library.
+- Tests for most of the example implementations in `FunLand.Builtin.*`.
+
+### Changelog
+
+- 0.9.0 Split off FunLandic to its own library.
+- 0.8.0 Important (backwards-incompatible) naming and functionality changes. Implementation of Traversable. Implementations for the SuccessTuple type.
 
 ### Roadmap
 
@@ -71,6 +75,6 @@ The package is available on [hex](https://hex.pm/packages/fun_land) and can can 
 
 ```elixir
 def deps do
-  [{:fun_land, "~> 0.8.0"}]
+  [{:fun_land, "~> 0.9.0"}]
 end
 ```
