@@ -23,8 +23,14 @@ defmodule FunLand.Builtin do
     @builtin_guards_list
   end
 
+  def __stdlib_struct_modules__ do
+    [
+      {Range, Elixir.FunLand.Builtin.Range},
+      {MapSet, Elixir.FunLand.Builtin.MapSet}
+    ]
+  end
 
-  stdlib_modules = ~w{List Tuple Atom Map BitString Integer Float Function PID Port Reference}
+  stdlib_modules = ~w{List Tuple Atom Map BitString Integer Float Function PID Port Reference Range MapSet}
   stdlib_modules_dispatch_list = for module <- stdlib_modules do
     {:"Elixir.#{module}", :"Elixir.FunLand.Builtin.#{module}"}
   end

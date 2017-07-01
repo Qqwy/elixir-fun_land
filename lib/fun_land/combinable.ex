@@ -84,6 +84,13 @@ defmodule FunLand.Combinable do
   # custom modules
   def empty(combinable_module) when is_atom(combinable_module), do: combinable_module.empty
 
+  # Stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def empty(unquote(stdlib_module)) do
+      apply(unquote(module), :empty, [])
+    end
+  end
+
   # Custom structs
   def empty(%combinable_module{}), do: combinable_module.empty
 

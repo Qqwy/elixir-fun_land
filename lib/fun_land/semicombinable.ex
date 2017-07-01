@@ -40,7 +40,14 @@ defmodule FunLand.Semicombinable do
     end
   end
 
-  # structs
+  # stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def combine(a = %unquote(stdlib_module){}, b = %unquote(stdlib_module){}) do
+      apply(unquote(module), :combine, [a, b])
+    end
+  end
+
+  # custom structs
   def combine(a = %combinable{}, b = %combinable{}) do
     combinable.combine(a, b)
   end

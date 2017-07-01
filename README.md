@@ -22,8 +22,9 @@ Mostly lacking are:
 
 ### Changelog
 
-- 0.9.0 Split off FunLandic to its own library.
-- 0.8.0 Important (backwards-incompatible) naming and functionality changes. Implementation of Traversable. Implementations for the SuccessTuple type.
+- 0.9.1 - Fixes dispatching of Builtin Structs to proper behaviour implementation modules. Adds Combinable and Reducable implementations for MapSet.
+- 0.9.0 - Split off FunLandic to its own library.
+- 0.8.0 - Important (backwards-incompatible) naming and functionality changes. Implementation of Traversable. Implementations for the SuccessTuple type.
 
 ### Roadmap
 

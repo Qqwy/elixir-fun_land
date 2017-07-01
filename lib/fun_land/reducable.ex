@@ -84,7 +84,14 @@ defmodule FunLand.Reducable do
 
   def reduce(reducable, acc, fun)
 
-  # structs
+  # stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def reduce(reducable = %unquote(stdlib_module){}, acc, fun) do
+      apply(unquote(module), :reduce, [reducable, acc, fun])
+    end
+  end
+
+  # custom structs
   def reduce(reducable = %module{}, acc, fun) do
     module.reduce(reducable, acc, fun)
   end

@@ -47,6 +47,14 @@ defmodule FunLand.Mappable do
   """
   def map(mappable, function)
 
+  # Stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def map(mappable = %unquote(stdlib_module){}, function) do
+      apply(unquote(module), :map, [mappable, function])
+    end
+  end
+
+
   # Structs with user-defined specification.
   def map(mappable = %mappable_module{}, function) when is_function(function, 1) do
     mappable_module.map(mappable, function)

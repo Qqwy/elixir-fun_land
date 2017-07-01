@@ -26,7 +26,18 @@ defmodule FunLand.Traversable do
 
   Thus: `result_module` should be the same name as the name of thing you return from `fun`.
   """
-  # Structs
+
+
+  # stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def traverse(traversable = %unquote(stdlib_module){}, result_module_or_datatype, fun) do
+      result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)
+      apply(unquote(module), :traverse, [traversable, result_module, fun])
+    end
+  end
+
+
+  # Custom Structs
   def traverse(traversable = %module{}, result_module_or_datatype, fun) do
     result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)
     module.traverse(traversable, result_module, fun)
@@ -37,7 +48,7 @@ defmodule FunLand.Traversable do
   for {guard, module} <- FunLand.Builtin.__builtin__ do
     def traverse(traversable, result_module_or_datatype, fun) when unquote(guard)(traversable) do
       result_module = FunLand.Helper.map_datatype_to_module(result_module_or_datatype)
-      apply(unquote(module),:traverse, [traversable, result_module, fun])
+      apply(unquote(module), :traverse, [traversable, result_module, fun])
     end
   end
 end

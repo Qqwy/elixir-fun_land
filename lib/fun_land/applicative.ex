@@ -71,6 +71,14 @@ defmodule FunLand.Applicative do
 
   # When called with custom modulename
   def new(module, a) when is_atom(module), do: module.new(a)
+
+  # When called with stdlib struct
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def new(%unquote(stdlib_module){}, a) do
+      apply(unquote(module), :new, [a])
+    end
+  end
+
   # When called with Struct
   def new(%module{}, a), do: module.new(a)
 

@@ -44,6 +44,13 @@ defmodule FunLand.Chainable do
   """
   def chain(chainable, function_that_returns_new_chainable)
 
+  # Stdlib structs
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+    def new(a = %unquote(stdlib_module){}, b) do
+      apply(unquote(module), :chain, [a, b])
+    end
+  end
+
   # Custom structs
   def chain(a = %chainable{}, b) when is_function(b, 1) do
     chainable.chain(a, b)
