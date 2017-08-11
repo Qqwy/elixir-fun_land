@@ -22,6 +22,7 @@ Mostly lacking are:
 
 ### Changelog
 
+- 0.9.2 - Numbers v5.0.0 support
 - 0.9.1 - Fixes dispatching of Builtin Structs to proper behaviour implementation modules. Adds Combinable and Reducable implementations for MapSet.
 - 0.9.0 - Split off FunLandic to its own library.
 - 0.8.0 - Important (backwards-incompatible) naming and functionality changes. Implementation of Traversable. Implementations for the SuccessTuple type.
@@ -76,6 +77,6 @@ The package is available on [hex](https://hex.pm/packages/fun_land) and can can 
 
 ```elixir
 def deps do
-  [{:fun_land, "~> 0.9.0"}]
+  [{:fun_land, "~> 0.9.2"}]
 end
 ```

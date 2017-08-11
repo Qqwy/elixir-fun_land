@@ -3,7 +3,7 @@ defmodule FunLand.Mixfile do
 
   def project do
     [app: :fun_land,
-     version: "0.9.1",
+     version: "0.9.2",
      elixir: "~> 1.3",
      description: description(),
      package: package(),
@@ -31,7 +31,7 @@ defmodule FunLand.Mixfile do
   defp deps do
     [
       {:currying, "~> 1.0"}, # Used for partial application in multiple places.
-      {:numbers, "~> 4.0"},  # Used in `Sum` and `Product` ADTs.
+      {:numbers, "~> 5.0"},  # Used in `Sum` and `Product` ADTs.
 
       {:dialyxir, "~> 0.3", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev}
