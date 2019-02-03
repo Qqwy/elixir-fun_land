@@ -1,6 +1,6 @@
 defmodule FunLand.Chainable do
   @moduledoc """
-  Defines a 'chain' operation to apply a function that takes a simple value and outputs a new Chainable to a value inside a Chainable. 
+  Defines a 'chain' operation to apply a function that takes a simple value and outputs a new Chainable to a value inside a Chainable.
 
   Something that is Chainable also needs to be Appliable.
 
@@ -23,7 +23,7 @@ defmodule FunLand.Chainable do
 
   """
 
-  @type chainable(_) :: FunLand.adt
+  @type chainable(a) :: FunLand.adt(a)
   @callback chain(chainable(a), (a -> b)) :: chainable(b) when a: any, b: any
 
   defmacro __using__(_opts) do

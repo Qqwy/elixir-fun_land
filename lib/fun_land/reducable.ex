@@ -21,7 +21,7 @@ defmodule FunLand.Reducable do
 
   """
 
-  @type reducable(_) :: FunLand.adt
+  @type reducable(a) :: FunLand.adt(a)
 
   @callback reduce(reducable(a), acc, (a, acc -> acc)) :: acc when a: any, acc: any
 

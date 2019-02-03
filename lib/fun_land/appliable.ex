@@ -51,7 +51,7 @@ defmodule FunLand.Appliable do
   - In Category Theory, something that is Appliable is called an *Apply*.
 
   """
-  @type appliable(_) :: FunLand.adt
+  @type appliable(a) :: FunLand.adt(a)
 
   @callback apply_with(appliable((b -> c)), appliable(b)) :: appliable(c) when b: any, c: any
 

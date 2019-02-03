@@ -27,7 +27,7 @@ defmodule FunLand.Mappable do
 
   """
 
-  @type mappable(_) :: FunLand.adt
+  @type mappable(a) :: FunLand.adt(a)
   @callback map(mappable(a), (a -> b)) :: mappable(b) when a: any, b: any
 
   def __using__(_opts) do
