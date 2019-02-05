@@ -6,7 +6,7 @@ defmodule FunLand.Traversable do
   not be used in practice yet.
   """
 
-  @type traversable(_) :: FunLand.adt
+  @type traversable(a) :: FunLand.adt(a)
 
   @callback traverse(traversable(a), module(), (a -> FunLand.Applicative.applicative(b))) :: FunLand.Applicative.applicative(traversable(b)) when a: any, b: any
 

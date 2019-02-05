@@ -29,7 +29,7 @@ defmodule FunLand.Applicative do
 
 
   """
-  @type applicative(_) :: FunLand.adt
+  @type applicative(a) :: FunLand.adt(a)
 
   @callback new(a) :: applicative(a) when a: any
 

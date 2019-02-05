@@ -30,7 +30,7 @@ defmodule FunLand.Combinable do
 
   """
 
-  @type combinable(_) :: FunLand.adt
+  @type combinable(a) :: FunLand.adt(a)
 
   @callback empty() :: combinable(a) when a: any
 
