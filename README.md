@@ -22,6 +22,7 @@ Mostly lacking are:
 
 ### Changelog
 
+- 0.9.3 - Fixes bug that made it impossible to compile on Elixir 1.8.x
 - 0.9.2 - Numbers v5.0.0 support
 - 0.9.1 - Fixes dispatching of Builtin Structs to proper behaviour implementation modules. Adds Combinable and Reducable implementations for MapSet.
 - 0.9.0 - Split off FunLandic to its own library.
