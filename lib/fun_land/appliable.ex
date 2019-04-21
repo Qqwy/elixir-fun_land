@@ -1,5 +1,5 @@
 defmodule FunLand.Appliable do
-  @doc """
+  @moduledoc """
   Something is Appliable if you can _apply_ one of it (containing one or multiple functions) _with_ another.
 
   Appliable is mostly born out of the needs to apply a function that is already wrapped in a Mappable:
