@@ -27,8 +27,8 @@ defmodule FunLand do
   - `Semicombinable` -> A structure is Semicombinable if there is a way to combine two structures into one.
   - `Combinable` -> A structure is Combinable if it is Semicombinable and there is a clearly defined 'empty' element.
   - `CombinableMonad` -> A structure is a CombinableMonad if it is both Combinable and a Monad.
-  - `Reducable` -> A structure is reducable if you can fold/reduce it to a single value, when giving a Combinable or function+default.
-  - `Traversable` -> A structure is Traversable if it is Reducable and there is a way to flip the ???
+  - `Reducible` -> A structure is reducible if you can fold/reduce it to a single value, when giving a Combinable or function+default.
+  - `Traversable` -> A structure is Traversable if it is Reducible and there is a way to flip the ???
 
   When given the option `operators: true`, it will also import the following operators:
 
@@ -70,7 +70,7 @@ defmodule FunLand do
         Semicombinable,
         Combinable,
 
-        Reducable,
+        Reducible,
         Traversable,
 
         CombinableMonad,
@@ -84,15 +84,15 @@ defmodule FunLand do
   defdelegate chain(chainable, fun_returning_chainable), to: FunLand.Chainable
   defdelegate empty(module), to: FunLand.Combinable
   defdelegate combine(semicombinable, semicombinable), to: FunLand.Semicombinable
-  defdelegate reduce(reducable, accumulator, fun), to: FunLand.Reducable
-  defdelegate reduce(reducable, combinable), to: FunLand.Reducable
+  defdelegate reduce(reducible, accumulator, fun), to: FunLand.Reducible
+  defdelegate reduce(reducible, combinable), to: FunLand.Reducible
 
-  def any?(reducable, property_fun) do
-    FunLand.Reducable.reduce(reducable, false, fn elem, acc -> acc || property_fun.(elem) end)
+  def any?(reducible, property_fun) do
+    FunLand.Reducible.reduce(reducible, false, fn elem, acc -> acc || property_fun.(elem) end)
   end
 
-  def all?(reducable, property_fun) do
-    FunLand.Reducable.reduce(reducable, true, fn elem, acc -> acc && property_fun.(elem) end)
+  def all?(reducible, property_fun) do
+    FunLand.Reducible.reduce(reducible, true, fn elem, acc -> acc && property_fun.(elem) end)
   end
 
   @doc """

@@ -29,7 +29,7 @@ defmodule FunLand.Builtin.List do
     list_a ++ list_b
   end
 
-  use FunLand.Reducable
+  use FunLand.Reducible
 
   def reduce(list, acc, fun) do
     :lists.foldr(fun, acc, list)

@@ -13,7 +13,7 @@ defmodule FunLand.Traversable do
   defmacro __using__(_opts) do
     quote do
       use FunLand.Mappable
-      use FunLand.Reducable
+      use FunLand.Reducible
       @behaviour FunLand.Traversable
     end
   end

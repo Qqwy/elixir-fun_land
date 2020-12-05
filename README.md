@@ -41,7 +41,7 @@ Mostly lacking are:
   - [x] *Semicombinable* - Anything which, when you have two of them, you can `combine` them together into one.
   - [x] *Combinable* - Anything that is Combinable, and also has a `neutral` value which you can combine something with when you don't have anything else, to keep the result the same.
   - [x] *CombinableMonad* - Any structure that is both a Monad and Combinable.
-  - [x] *Reducable* - Any structure that can be `reduce`d to a single value, when given a Combinable (or alternatively, a starting value and a function to combine this with a single value inside the structure). 
+  - [x] *Reducible* - Any structure that can be `reduce`d to a single value, when given a Combinable (or alternatively, a starting value and a function to combine this with a single value inside the structure).
   - [x] Traversable
     - [x] Find out how to implement Traversable.traverse properly in a dynamically typed language. (How do you know what empty structure to return when being passed an empty structure?) -> Pass explicit extra parameter with result module.
 - [x] Also, where to put these practical implementations? -> FunLandic.*

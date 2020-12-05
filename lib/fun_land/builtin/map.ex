@@ -34,7 +34,7 @@ defmodule FunLand.Builtin.Map do
     :maps.new
   end
 
-  use FunLand.Reducable
+  use FunLand.Reducible
 
   def reduce(map, initial, folding_function) do
     :maps.fold(fn k, v, acc -> folding_function.({k, v}, acc) end, initial, map)

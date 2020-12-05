@@ -1,6 +1,6 @@
-defmodule FunLand.ReducableTest do
+defmodule FunLand.ReducibleTest do
   use ExUnit.Case, async: true
   use FunLand
 
-  doctest FunLand.Reducable
+  doctest FunLand.Reducible
 end

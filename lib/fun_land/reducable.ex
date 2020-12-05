@@ -1,29 +1,29 @@
-defmodule FunLand.Reducable do
+defmodule FunLand.Reducible do
 
   @moduledoc """
-  Anything that implements the Reducable behaviour, can be reduced to a single value, when given a combinable (or combining-function + base value).
+  Anything that implements the Reducible behaviour, can be reduced to a single value, when given a combinable (or combining-function + base value).
 
-  This is enough information to convert any reducable to a List.
+  This is enough information to convert any reducible to a List.
   It even is enough information to implement most enumerable methods.
 
   However, what is _not_ possible, is to stop halfway through the reduction.
-  Therefore, Reducable is a lot simpler than the Enumerable protocol.
+  Therefore, Reducible is a lot simpler than the Enumerable protocol.
 
   For convenience, though, a very basic implementation of the Enumerable protocol is
-  automatically added when you `use Reducable`. This implementation first converts your Reducable
+  automatically added when you `use Reducible`. This implementation first converts your Reducible
   to a list, and then enumerates on that.
 
-  This is very convenient, but it _does_ mean that your *whole* reducable is first converted to a list.
+  This is very convenient, but it _does_ mean that your *whole* reducible is first converted to a list.
   This will therefore always be slower than a full-blown custom implementation that is specific for your structure.
 
-  If you want to implement your own version of Enumerable, add Reducable with `use FunLand.Reducable, auto_enumerable: false`.
+  If you want to implement your own version of Enumerable, add Reducible with `use FunLand.Reducible, auto_enumerable: false`.
 
 
   """
 
-  @type reducable(a) :: FunLand.adt(a)
+  @type reducible(a) :: FunLand.adt(a)
 
-  @callback reduce(reducable(a), acc, (a, acc -> acc)) :: acc when a: any, acc: any
+  @callback reduce(reducible(a), acc, (a, acc -> acc)) :: acc when a: any, acc: any
 
   defmacro __using__(opts) do
 
@@ -32,11 +32,11 @@ defmodule FunLand.Reducable do
         quote do
           defimpl Enumerable do
 
-            def count(reducable), do: {:error, __MODULE__}
-            def empty?(reducable), do: {:error, __MODULE__}
-            def member?(reducable, elem), do: {:error, __MODULE__}
-            def reduce(reducable, acc, fun) do
-              reducable
+            def count(reducible), do: {:error, __MODULE__}
+            def empty?(reducible), do: {:error, __MODULE__}
+            def member?(reducible, elem), do: {:error, __MODULE__}
+            def reduce(reducible, acc, fun) do
+              reducible
               |> @for.to_list
               |> Enumerable.List.reduce(acc, fun)
             end
@@ -48,22 +48,22 @@ defmodule FunLand.Reducable do
 
     unused_opts = Keyword.delete(opts, :auto_enumerable)
     if unused_opts != [] do
-      IO.puts "Warning: `use FunLand.Reducable` does not understand options: #{inspect(unused_opts)}"
+      IO.puts "Warning: `use FunLand.Reducible` does not understand options: #{inspect(unused_opts)}"
     end
 
     quote do
-      @behaviour FunLand.Reducable
+      @behaviour FunLand.Reducible
       unquote(enum_protocol_implementation)
 
       @doc """
-      Converts the reducable into a list,
+      Converts the reducible into a list,
       by building up a list from all elements, and in the end reversing it.
 
       This is an automatic function implementation, made possible because #{inspect(__MODULE__)}
-      implements the `FunLand.Reducable` behaviour.
+      implements the `FunLand.Reducible` behaviour.
       """
-      def to_list(reducable) do
-        reducable
+      def to_list(reducible) do
+        reducible
         |> __MODULE__.reduce([], fn x, acc -> [x | acc] end)
         |> :lists.reverse
       end
@@ -82,24 +82,24 @@ defmodule FunLand.Reducable do
     end
   end
 
-  def reduce(reducable, acc, fun)
+  def reduce(reducible, acc, fun)
 
   # stdlib structs
   for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
-    def reduce(reducable = %unquote(stdlib_module){}, acc, fun) do
-      apply(unquote(module), :reduce, [reducable, acc, fun])
+    def reduce(reducible = %unquote(stdlib_module){}, acc, fun) do
+      apply(unquote(module), :reduce, [reducible, acc, fun])
     end
   end
 
   # custom structs
-  def reduce(reducable = %module{}, acc, fun) do
-    module.reduce(reducable, acc, fun)
+  def reduce(reducible = %module{}, acc, fun) do
+    module.reduce(reducible, acc, fun)
   end
 
   use FunLand.Helper.GuardMacros
   for {guard, module} <- FunLand.Builtin.__builtin__ do
-    def reduce(reducable, acc, fun) when unquote(guard)(reducable) do
-      apply(unquote(module),:reduce, [reducable, acc, fun])
+    def reduce(reducible, acc, fun) when unquote(guard)(reducible) do
+      apply(unquote(module),:reduce, [reducible, acc, fun])
     end
   end
 
