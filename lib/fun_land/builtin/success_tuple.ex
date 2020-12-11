@@ -8,7 +8,7 @@ defmodule FunLand.Builtin.SuccessTuple do
 
   use FunLand
   use FunLand.Monad
-  use FunLand.Reducable
+  use FunLand.Reducible
   # use FunLand.Traversable
   use FunLand.Combinable
 

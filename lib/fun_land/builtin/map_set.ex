@@ -8,7 +8,7 @@ defmodule FunLand.Builtin.MapSet do
     MapSet.union(mapset1, mapset2)
   end
 
-  use FunLand.Reducable
+  use FunLand.Reducible
   def reduce(set, acc, fun) do
     list = MapSet.to_list(set)
     :lists.foldr(fun, acc, list)
