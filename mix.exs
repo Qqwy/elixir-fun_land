@@ -3,7 +3,7 @@ defmodule FunLand.Mixfile do
 
   def project do
     [app: :fun_land,
-     version: "0.9.3",
+     version: "0.10.0",
      elixir: "~> 1.3",
      description: description(),
      package: package(),
