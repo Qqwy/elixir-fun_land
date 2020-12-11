@@ -77,7 +77,9 @@ defmodule FunLand.Reducible do
       or the combinable as struct to use that as starting accumulator.
       """
       def reduce(a, combinable) do
-        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(combinable, &1))
+        #`combine` takes the accumulator as first parameter,
+        # but `reduce` exposes it as second parameter.
+        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(&2, &1))
       end
     end
   end
@@ -105,6 +107,8 @@ defmodule FunLand.Reducible do
 
   # Using a Combinable
   def reduce(a, combinable) do
-    reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(combinable, &1))
+    #`combine` takes the accumulator as first parameter,
+    # but `reduce` exposes it as second parameter.
+    reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(&2, &1))
   end
 end
