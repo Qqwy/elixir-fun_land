@@ -33,7 +33,7 @@ defmodule FunLand.Mixfile do
       {:currying, "~> 1.0"}, # Used for partial application in multiple places.
       {:numbers, "~> 5.0"},  # Used in `Sum` and `Product` ADTs.
 
-      {:dialyxir, "~> 0.3", only: :dev},
+      {:dialyxir, "~> 1.0", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
