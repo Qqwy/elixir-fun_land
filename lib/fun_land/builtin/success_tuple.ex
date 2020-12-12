@@ -21,7 +21,8 @@ defmodule FunLand.Builtin.SuccessTuple do
 
   defmacro is_error(dt) do
     quote do
-      unquote(dt) == :error or is_tuple(unquote(dt)) and tuple_size(unquote(dt)) == 2 and elem(unquote(dt), 0) == :error
+      unquote(dt) == :error or
+        (is_tuple(unquote(dt)) and tuple_size(unquote(dt)) == 2 and elem(unquote(dt), 0) == :error)
     end
   end
 
@@ -34,8 +35,9 @@ defmodule FunLand.Builtin.SuccessTuple do
   def new(val), do: {:ok, val}
 
   def map({:ok, val}, fun) do
-      new(fun.(val))
+    new(fun.(val))
   end
+
   def map(:error, _fun), do: :error
   def map({:error, reason}, _fun), do: {:error, reason}
 
@@ -57,5 +59,7 @@ defmodule FunLand.Builtin.SuccessTuple do
   """
   def combine(left, _right) when is_error(left), do: left
   def combine(_left, right) when is_error(right), do: right
-  def combine({:ok, leftval}, {:ok, rightval}), do: new(FunLand.Combinable.combine(leftval, rightval))
+
+  def combine({:ok, leftval}, {:ok, rightval}),
+    do: new(FunLand.Combinable.combine(leftval, rightval))
 end

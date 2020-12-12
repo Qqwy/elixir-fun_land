@@ -31,7 +31,7 @@ defmodule FunLand.Builtin.Map do
   end
 
   def empty do
-    :maps.new
+    :maps.new()
   end
 
   use FunLand.Reducible

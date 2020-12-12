@@ -43,7 +43,6 @@ defmodule FunLand do
   @type adt :: [any] | {} | map | struct
 
   defmacro __using__(opts) do
-
     # Only import operators if wanted.
     import_code =
       if Keyword.get(opts, :operators, false) do
@@ -66,14 +65,11 @@ defmodule FunLand do
         Applicative,
         Chainable,
         Monad,
-
         Semicombinable,
         Combinable,
-
         Reducible,
         Traversable,
-
-        CombinableMonad,
+        CombinableMonad
       }
     end
   end
@@ -126,7 +122,8 @@ defmodule FunLand do
   behavior of `Kernel.<>/2`, which means that it will only work with binary strings.
   """
   defmacro left <> right do
-    in_module? = (__CALLER__.context == nil)
+    in_module? = __CALLER__.context == nil
+
     if in_module? do
       quote do
         FunLand.Combinable.combine(unquote(left), unquote(right))

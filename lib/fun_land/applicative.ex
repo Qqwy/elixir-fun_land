@@ -42,11 +42,11 @@ defmodule FunLand.Applicative do
       def map(a, function) do
         apply_with(new(function), a)
       end
-      defoverridable [map: 2]
+
+      defoverridable map: 2
 
       defdelegate apply_discard_left(a, b), to: FunLand.Applicative
       defdelegate apply_discard_right(a, b), to: FunLand.Applicative
-
     end
   end
 
@@ -63,7 +63,7 @@ defmodule FunLand.Applicative do
   def new(module_or_data_type, value)
 
   # For standard-library modules like `List`, delegate to e.g. `FunLand.Builtin.List`
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__() do
     def new(unquote(stdlib_module), a) do
       apply(unquote(module), :new, [a])
     end
@@ -73,7 +73,7 @@ defmodule FunLand.Applicative do
   def new(module, a) when is_atom(module), do: module.new(a)
 
   # When called with stdlib struct
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def new(%unquote(stdlib_module){}, a) do
       apply(unquote(module), :new, [a])
     end
@@ -83,13 +83,13 @@ defmodule FunLand.Applicative do
   def new(%module{}, a), do: module.new(a)
 
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
     # When called with direct types like `{}` or `[]` or `"foo"`
     def new(applicative, a) when unquote(guard)(applicative) do
       apply(unquote(module), :new, [a])
     end
   end
-
 
   # Free function implementations:
 
@@ -120,5 +120,4 @@ defmodule FunLand.Applicative do
   def apply_discard_left(a, b) do
     apply_with(map(a, Currying.curry(&FunLand.Helper.const_reverse/2)), b)
   end
-
 end

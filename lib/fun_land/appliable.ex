@@ -84,7 +84,7 @@ defmodule FunLand.Appliable do
   def apply_with(appliable_with_function_inside, appliable_b)
 
   # stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def apply_with(a = %unquote(stdlib_module){}, b = %unquote(stdlib_module){}) do
       apply(unquote(module), :apply_with, [a, b])
     end
@@ -95,7 +95,8 @@ defmodule FunLand.Appliable do
   end
 
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
     def apply_with(a, b) when unquote(guard)(a) and unquote(guard)(b) do
       apply(unquote(module), :apply_with, [a, b])
     end

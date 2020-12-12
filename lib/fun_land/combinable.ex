@@ -35,7 +35,6 @@ defmodule FunLand.Combinable do
   @callback empty() :: combinable(a) when a: any
 
   defmacro __using__(opts) do
-
     collectable_implementation =
       if Keyword.get(opts, :auto_collectable, false) do
         quote do
@@ -49,17 +48,22 @@ defmodule FunLand.Combinable do
                 coll_a, :done -> coll_a
                 coll_a, :halt -> :ok
               end
+
               {original, result}
             end
           end
         end
       else
-        quote do end
+        quote do
+        end
       end
 
     unused_opts = Keyword.delete(opts, :auto_collectable)
+
     if unused_opts != [] do
-      IO.puts "Warning: `use FunLand.Combinable` does not understand options: #{inspect(unused_opts)}"
+      IO.puts(
+        "Warning: `use FunLand.Combinable` does not understand options: #{inspect(unused_opts)}"
+      )
     end
 
     quote do
@@ -75,7 +79,7 @@ defmodule FunLand.Combinable do
   def empty(combinable)
 
   # stdlib modules
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib__() do
     def empty(unquote(stdlib_module)) do
       apply(unquote(module), :empty, [])
     end
@@ -85,7 +89,7 @@ defmodule FunLand.Combinable do
   def empty(combinable_module) when is_atom(combinable_module), do: combinable_module.empty
 
   # Stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def empty(unquote(stdlib_module)) do
       apply(unquote(module), :empty, [])
     end
@@ -96,7 +100,8 @@ defmodule FunLand.Combinable do
 
   # stdlib types
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
     def empty(combinable) when unquote(guard)(combinable) do
       apply(unquote(module), :empty, [])
     end

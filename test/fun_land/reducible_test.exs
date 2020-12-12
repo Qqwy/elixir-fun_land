@@ -3,7 +3,7 @@ defmodule FunLand.ReducibleTest do
   use FunLand
 
   defmodule Score do
-    defstruct [val: 0]
+    defstruct val: 0
     use FunLand.Combinable
 
     def new(val), do: %Score{val: val}
@@ -14,7 +14,6 @@ defmodule FunLand.ReducibleTest do
 
     def combine(%Score{val: a}, %Score{val: b}), do: new(a + b)
   end
-
 
   doctest FunLand.Reducible
 end

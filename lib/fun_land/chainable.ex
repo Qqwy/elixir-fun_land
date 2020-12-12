@@ -45,7 +45,7 @@ defmodule FunLand.Chainable do
   def chain(chainable, function_that_returns_new_chainable)
 
   # Stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def chain(a = %unquote(stdlib_module){}, b) do
       apply(unquote(module), :chain, [a, b])
     end
@@ -58,8 +58,10 @@ defmodule FunLand.Chainable do
 
   # Builtin datatypes
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
-    def chain(chainable_a, chainable_b) when is_function(chainable_b, 1) and unquote(guard)(chainable_a) do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
+    def chain(chainable_a, chainable_b)
+        when is_function(chainable_b, 1) and unquote(guard)(chainable_a) do
       apply(unquote(module), :chain, [chainable_a, chainable_b])
     end
   end
