@@ -48,12 +48,11 @@ defmodule FunLand.Mappable do
   def map(mappable, function)
 
   # Stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def map(mappable = %unquote(stdlib_module){}, function) do
       apply(unquote(module), :map, [mappable, function])
     end
   end
-
 
   # Structs with user-defined specification.
   def map(mappable = %mappable_module{}, function) when is_function(function, 1) do
@@ -61,7 +60,8 @@ defmodule FunLand.Mappable do
   end
 
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
     def map(mappable, function) when is_function(function, 1) and unquote(guard)(mappable) do
       apply(unquote(module), :map, [mappable, function])
     end

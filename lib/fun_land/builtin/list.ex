@@ -9,10 +9,13 @@ defmodule FunLand.Builtin.List do
 
   # This implementation of `ap` is returning all possible solutions of combining the function(s) in `a` with the elements of `b`, AKA the cartesion product.
   def apply_with([], b) when is_list(b), do: []
+
   def apply_with([h | t], b) when is_list(b) and is_function(h) do
-    partial_results = for elem <- b do
-      h.(elem)
-    end
+    partial_results =
+      for elem <- b do
+        h.(elem)
+      end
+
     partial_results ++ apply_with(t, b)
   end
 
@@ -53,6 +56,7 @@ defmodule FunLand.Builtin.List do
       result_module.map(fun.(elem), Currying.curry(&cons/2))
       |> result_module.apply_with(acc)
     end
+
     reduce(list, result_module.new([]), cons_fun)
   end
 

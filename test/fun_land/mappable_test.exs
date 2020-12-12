@@ -5,7 +5,7 @@ defmodule FunLand.MappableTest do
   doctest FunLand.Mappable
 
   test "basic mapping for lists" do
-    assert [1,2,3] |> FunLand.Mappable.map(fn x -> x * 2 end) == [2,4,6]
+    assert [1, 2, 3] |> FunLand.Mappable.map(fn x -> x * 2 end) == [2, 4, 6]
   end
 
   test "basic mapping for success tuple" do

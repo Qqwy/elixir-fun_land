@@ -41,7 +41,7 @@ defmodule FunLand.Semicombinable do
   end
 
   # stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def combine(a = %unquote(stdlib_module){}, b = %unquote(stdlib_module){}) do
       apply(unquote(module), :combine, [a, b])
     end
@@ -54,10 +54,11 @@ defmodule FunLand.Semicombinable do
 
   # builtin data types
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
-    def combine(combinable_a, combinable_b) when unquote(guard)(combinable_a) and unquote(guard)(combinable_b) do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
+    def combine(combinable_a, combinable_b)
+        when unquote(guard)(combinable_a) and unquote(guard)(combinable_b) do
       apply(unquote(module), :combine, [combinable_a, combinable_b])
     end
   end
-
 end

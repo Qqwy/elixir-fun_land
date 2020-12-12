@@ -2,14 +2,16 @@ defmodule FunLand.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :fun_land,
-     version: "0.10.0",
-     elixir: "~> 1.3",
-     description: description(),
-     package: package(),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :fun_land,
+      version: "0.10.0",
+      elixir: "~> 1.3",
+      description: description(),
+      package: package(),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -30,9 +32,10 @@ defmodule FunLand.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:currying, "~> 1.0"}, # Used for partial application in multiple places.
-      {:numbers, "~> 5.0"},  # Used in `Sum` and `Product` ADTs.
-
+      # Used for partial application in multiple places.
+      {:currying, "~> 1.0"},
+      # Used in `Sum` and `Product` ADTs.
+      {:numbers, "~> 5.0"},
       {:dialyxir, "~> 0.3", only: :dev},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
@@ -45,12 +48,13 @@ defmodule FunLand.Mixfile do
   end
 
   defp package do
-    [# These are the default files included in the package
-     name: :fun_land,
-     files: ["lib", "mix.exs", "README*", "LICENSE*"],
-     maintainers: ["Wiebe-Marten/Qqwy"],
-     licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/qqwy/elixir_fun_land",
-              }]
+    # These are the default files included in the package
+    [
+      name: :fun_land,
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      maintainers: ["Wiebe-Marten/Qqwy"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/qqwy/elixir_fun_land"}
+    ]
   end
 end

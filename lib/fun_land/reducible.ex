@@ -1,5 +1,4 @@
 defmodule FunLand.Reducible do
-
   @moduledoc """
   Anything that implements the Reducible behaviour, can be reduced to a single value, when given a combinable (or combining-function + base value).
 
@@ -26,15 +25,14 @@ defmodule FunLand.Reducible do
   @callback reduce(reducible(a), acc, (a, acc -> acc)) :: acc when a: any, acc: any
 
   defmacro __using__(opts) do
-
     enum_protocol_implementation =
       if Keyword.get(opts, :auto_enumerable, false) do
         quote do
           defimpl Enumerable do
-
             def count(reducible), do: {:error, __MODULE__}
             def empty?(reducible), do: {:error, __MODULE__}
             def member?(reducible, elem), do: {:error, __MODULE__}
+
             def reduce(reducible, acc, fun) do
               reducible
               |> @for.to_list
@@ -43,12 +41,16 @@ defmodule FunLand.Reducible do
           end
         end
       else
-        quote do end
+        quote do
+        end
       end
 
     unused_opts = Keyword.delete(opts, :auto_enumerable)
+
     if unused_opts != [] do
-      IO.puts "Warning: `use FunLand.Reducible` does not understand options: #{inspect(unused_opts)}"
+      IO.puts(
+        "Warning: `use FunLand.Reducible` does not understand options: #{inspect(unused_opts)}"
+      )
     end
 
     quote do
@@ -65,7 +67,7 @@ defmodule FunLand.Reducible do
       def to_list(reducible) do
         reducible
         |> __MODULE__.reduce([], fn x, acc -> [x | acc] end)
-        |> :lists.reverse
+        |> :lists.reverse()
       end
 
       @doc """
@@ -77,7 +79,11 @@ defmodule FunLand.Reducible do
       or the combinable as struct to use that as starting accumulator.
       """
       def reduce(a, combinable) do
-        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(combinable, &1))
+        reduce(
+          a,
+          FunLand.Combinable.empty(combinable),
+          &FunLand.Combinable.combine(combinable, &1)
+        )
       end
     end
   end
@@ -85,7 +91,7 @@ defmodule FunLand.Reducible do
   def reduce(reducible, acc, fun)
 
   # stdlib structs
-  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__ do
+  for {stdlib_module, module} <- FunLand.Builtin.__stdlib_struct_modules__() do
     def reduce(reducible = %unquote(stdlib_module){}, acc, fun) do
       apply(unquote(module), :reduce, [reducible, acc, fun])
     end
@@ -97,9 +103,10 @@ defmodule FunLand.Reducible do
   end
 
   use FunLand.Helper.GuardMacros
-  for {guard, module} <- FunLand.Builtin.__builtin__ do
+
+  for {guard, module} <- FunLand.Builtin.__builtin__() do
     def reduce(reducible, acc, fun) when unquote(guard)(reducible) do
-      apply(unquote(module),:reduce, [reducible, acc, fun])
+      apply(unquote(module), :reduce, [reducible, acc, fun])
     end
   end
 

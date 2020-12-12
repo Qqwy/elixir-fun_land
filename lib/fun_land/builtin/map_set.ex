@@ -1,5 +1,6 @@
 defmodule FunLand.Builtin.MapSet do
   use FunLand.Combinable
+
   def empty() do
     Elixir.MapSet.new()
   end
@@ -9,6 +10,7 @@ defmodule FunLand.Builtin.MapSet do
   end
 
   use FunLand.Reducible
+
   def reduce(set, acc, fun) do
     list = MapSet.to_list(set)
     :lists.foldr(fun, acc, list)
