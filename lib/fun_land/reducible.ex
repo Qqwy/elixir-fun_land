@@ -77,11 +77,15 @@ defmodule FunLand.Reducible do
 
       Pass in the combinable module name to start with `empty` as accumulator,
       or the combinable as struct to use that as starting accumulator.
+
+      This is an automatic function implementation, made possible because #{inspect(__MODULE__)}
+      implements the `FunLand.Reducible` behaviour.
+
+      See `FunLand.Reducible.reduce/2` for examples.
+
       """
       def reduce(a, combinable) do
-        #`combine` takes the accumulator as first parameter,
-        # but `reduce` exposes it as second parameter.
-        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(&2, &1))
+        reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine/2)
       end
     end
   end
@@ -107,10 +111,42 @@ defmodule FunLand.Reducible do
     end
   end
 
+  @doc """
+  A variant of reduce that accepts anything that is Combinable
+  as second argument. This Combinable will determine what the empty value and the
+  combining operation will be.
+
+  Pass in the combinable module name to start with `empty` as accumulator,
+  or the combinable as struct to use that as starting accumulator.
+
+  This is an automatic function implementation, made possible because #{inspect(__MODULE__)}
+  implements the `FunLand.Reducible` behaviour.
+
+  Some examples:
+
+      iex> ["the", "quick", "brown", "fox"] |> FunLand.Reducible.reduce("")
+      "thequickbrownfox"
+
+  Or given the following module:
+
+      defmodule Score do
+        defstruct [val: 0]
+        use FunLand.Combinable
+
+        def new(val), do: %Score{val: val}
+
+        def empty(), do: new(0)
+
+        def combine(%Score{val: a}, %Score{val: b}), do: new(a + b)
+      end
+
+
+      iex> [Score.new(10), Score.new(20), Score.new(42)] |> FunLand.Reducible.reduce(Score)
+      %Score{val: 72}
+  """
+
   # Using a Combinable
   def reduce(a, combinable) do
-    #`combine` takes the accumulator as first parameter,
-    # but `reduce` exposes it as second parameter.
-    reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine(&2, &1))
+    reduce(a, FunLand.Combinable.empty(combinable), &FunLand.Combinable.combine/2)
   end
 end

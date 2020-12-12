@@ -31,12 +31,12 @@ defmodule FunLand.Semicombinable do
 
   """
 
-  @type combinable(a) :: FunLand.adt(a)
-  @callback combine(combinable(a), combinable(a)) :: combinable(a) when a: any
+  @type semicombinable(a) :: FunLand.adt(a)
+  @callback semicombine(semicombinable(a), semicombinable(a)) :: semicombinable(a) when a: any
 
   def __using__(_opts) do
     quote do
-      @behaviour FunLand.Combinable
+      @behaviour FunLand.SemiCombinable
     end
   end
 
