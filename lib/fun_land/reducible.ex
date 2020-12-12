@@ -68,6 +68,8 @@ defmodule FunLand.Reducible do
         |> :lists.reverse
       end
 
+      defoverridable to_list: 1
+
       @doc """
       A variant of reduce that accepts anything that is Combinable
       as second argument. This Combinable will determine what the empty value and the
