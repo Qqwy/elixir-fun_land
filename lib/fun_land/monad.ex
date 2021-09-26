@@ -20,6 +20,7 @@ defmodule FunLand.Monad do
 
 
   """
+
   # TODO: Describe monadic do-notation with examples.
 
   defmacro __using__(_opts) do
